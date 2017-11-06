@@ -11,18 +11,18 @@
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintVertical_weight="4"
-    android:background="#DDDDDD"
+    android:background="@color/label_bg"
     >
     <android.support.constraint.ConstraintLayout
         android:id="@+id/labelPanelTop"
         android:layout_width="0dp"
         android:layout_height="44dp"
-        android:background="#EEEEEE"
+        android:background="@color/white_button_off"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         >
-        <android.support.constraint.ConstraintLayout
+        <ko.hyeonmin.boardpro.viewExtension.WhiteButton
             android:id="@+id/selectForm"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -43,7 +43,7 @@
                 android:src="@drawable/arrowdown_wbg"
                 app:layout_constraintRight_toRightOf="parent"
                 />
-        </android.support.constraint.ConstraintLayout>
+        </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
         <android.support.constraint.ConstraintLayout
             android:id="@+id/labelPanelTopDivider"
             android:layout_width="1dp"
@@ -52,10 +52,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/selectForm"
             app:layout_constraintRight_toLeftOf="@+id/saveForm"
-            android:background="#DDDDDD"
+            android:background="@color/label_bg"
             >
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/labelRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </android.support.constraint.ConstraintLayout>
-        <android.support.constraint.ConstraintLayout
+        <ko.hyeonmin.boardpro.viewExtension.WhiteButton
             android:id="@+id/saveForm"
             android:layout_width="44dp"
             android:layout_height="0dp"
@@ -69,8 +73,8 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/cs_lb_save"
                 />
-        </android.support.constraint.ConstraintLayout>
-        <android.support.constraint.ConstraintLayout
+        </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
+        <ko.hyeonmin.boardpro.viewExtension.WhiteButton
             android:id="@+id/editForm"
             android:layout_width="44dp"
             android:layout_height="0dp"
@@ -84,7 +88,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/cs_lb_edit"
                 />
-        </android.support.constraint.ConstraintLayout>
+        </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
     </android.support.constraint.ConstraintLayout>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/labelPanelContent"
@@ -101,7 +105,7 @@
         android:id="@+id/labelPanelBottom"
         android:layout_width="0dp"
         android:layout_height="44dp"
-        android:background="#EEEEEE"
+        android:background="@color/white_button_off"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

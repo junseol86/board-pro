@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ko.hyeonmin.boardpro.ConsoleActivity">
+    tools:context="ko.hyeonmin.boardpro.activities.ConsoleActivity">
 
     <include layout="@layout/console_label_panel"></include>
     <include layout="@layout/console_photo_panel"></include>
