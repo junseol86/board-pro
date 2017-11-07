@@ -15,9 +15,15 @@ class Caches(val activity: Activity) {
 
 
     var formsJson: String
-        get() = formsSF.getString("formsSF", "")
+        get() = formsSF.getString("formsJSON", "")
         set(value) {
-            formsSF.edit().putString("formsSF", value).commit()
+            formsSF.edit().putString("formsJSON", value).commit()
+        }
+
+    var lastUsedFormJson: String
+        get() = formsSF.getString("lastUsedFormJson", "")
+        set(value) {
+            formsSF.edit().putString("lastUsedFormJson", value).commit()
         }
 
     init {
