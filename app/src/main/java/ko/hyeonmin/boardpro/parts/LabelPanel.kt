@@ -29,6 +29,7 @@ class LabelPanel(val activity: ConsoleActivity) {
     private var formArray: JSONArray = JSONArray(activity.caches?.formsJson)
     // 마지막으로 캐시된 형식이 없으면 리스트에서 첫번째 것을 가져온다.
     var selectedForm: JSONObject = if (activity.caches!!.lastUsedFormJson != "") JSONObject(activity.caches!!.lastUsedFormJson) else JSONObject(formArray[0].toString())
+    var tempForm: JSONObject? = null
 
     private val labelRecyclerView: RecyclerView = activity.findViewById(R.id.labelRecyclerView)
     private val labelRCAdapter: LabelRCAdapter = LabelRCAdapter(activity)
@@ -57,13 +58,14 @@ class LabelPanel(val activity: ConsoleActivity) {
     }
 
     fun setInterfaceText() {
+//        항목 foNm, fiNm 값에 따라 파일명, 폴더명을 표시
         for (i in 0 until JSONArray(selectedForm["items"].toString()).length()) {
             var jo = JSONArray(selectedForm["items"].toString())[i] as JSONObject
             if (Integer.parseInt(jo["foNm"].toString()) == 1) {
-                folderNameTV.text = jo["name"].toString()
+                folderNameTV.text = "폴더명: " + jo["name"].toString()
             }
             if (Integer.parseInt(jo["fiNm"].toString()) == 1) {
-                fileNameTV.text = jo["name"].toString()
+                fileNameTV.text = "파일명: " + jo["name"].toString()
             }
         }
     }
