@@ -10,6 +10,7 @@
 
     <color name="label_bg">#FAFAFA</color>
     <color name="label_border">#E0E0E0</color>
+    <color name="label_border_darker">#555555</color>
     <color name="label_vh_border">#EEEEEE</color>
     <color name="label_edit_text_border">#F5F5F5</color>
 
@@ -20,5 +21,5 @@
     <color name="black_button_off">#222222</color>
     <color name="black_button_on">#000000</color>
     <color name="label_button_on">#EEEEEE</color>
-    <color name="label_button_ff">#FAFAFA</color>
+    <color name="label_button_off">#FAFAFA</color>
 </resources>

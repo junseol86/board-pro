@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.activities.ConsoleActivity
+import ko.hyeonmin.boardpro.viewExtension.LabelRCButton
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -16,6 +17,8 @@ import org.json.JSONObject
 class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelRCAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val handleBtn: LabelRCButton = view.findViewById(R.id.label_rc_handle)
+        val deleteBtn: LabelRCButton = view.findViewById(R.id.label_rc_delete)
         val nameEt: EditText = view.findViewById(R.id.label_rc_name_et)
         val contentEt: EditText = view.findViewById(R.id.label_rc_content_et)
     }
@@ -28,6 +31,8 @@ class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelR
         val jo = JSONArray(activity.labelPanel!!.selectedForm["items"].toString())[position] as JSONObject
         holder?.nameEt?.setText(jo["name"].toString())
         holder?.contentEt?.setText(jo["content"].toString())
+        holder?.handleBtn?.visibility = if (activity.labelPanel!!.editingForm) View.VISIBLE else View.GONE
+        holder?.deleteBtn?.visibility = if (activity.labelPanel!!.editingForm) View.VISIBLE else View.GONE
     }
 
     override fun getItemCount(): Int {

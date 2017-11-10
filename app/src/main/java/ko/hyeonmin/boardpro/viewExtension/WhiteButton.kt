@@ -16,7 +16,7 @@ import ko.hyeonmin.boardpro.R
  * Created by junse on 2017-11-06.
  */
 
-class WhiteButton: ConstraintLayout, View.OnTouchListener {
+open class WhiteButton: ConstraintLayout, View.OnTouchListener {
 
     var touched = false
     private var buttonRect: Rect = Rect(0, 0, 0, 0)
@@ -40,7 +40,6 @@ class WhiteButton: ConstraintLayout, View.OnTouchListener {
     }
 
     override fun onTouch(p0: View?, event: MotionEvent?): Boolean {
-        println("$width $height")
         when (event!!.action) {
             MotionEvent.ACTION_DOWN -> touched = true
             MotionEvent.ACTION_UP -> touched = false

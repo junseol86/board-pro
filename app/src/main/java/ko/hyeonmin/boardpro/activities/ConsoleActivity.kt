@@ -17,9 +17,7 @@ class ConsoleActivity : Activity() {
         super.onCreate(savedInstanceState)
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_console)
-
         caches = Caches(this)
-        println(caches?.formsJson)
         labelPanel = LabelPanel(this)
     }
 }

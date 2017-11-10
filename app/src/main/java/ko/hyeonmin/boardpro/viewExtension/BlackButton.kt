@@ -40,7 +40,6 @@ class BlackButton : ConstraintLayout, View.OnTouchListener {
     }
 
     override fun onTouch(p0: View?, event: MotionEvent?): Boolean {
-        println("$width $height")
         when (event!!.action) {
             MotionEvent.ACTION_DOWN -> touched = true
             MotionEvent.ACTION_UP -> touched = false
