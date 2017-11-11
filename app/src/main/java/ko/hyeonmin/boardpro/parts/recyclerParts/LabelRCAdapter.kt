@@ -1,6 +1,8 @@
 package ko.hyeonmin.boardpro.parts.recyclerParts
 
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +35,18 @@ class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelR
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val jo = JSONArray(activity.labelPanel!!.selectedForm["items"].toString())[position] as JSONObject
         holder?.nameEt?.setText(jo["name"].toString())
+        holder?.nameEt?.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                val items = JSONArray(activity.labelPanel!!.selectedForm["items"].toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+        })
         holder?.contentEt?.setText(jo["content"].toString())
         holder?.handleBtn?.visibility = if (activity.labelPanel!!.editingForm) View.VISIBLE else View.GONE
         holder?.deleteBtn?.visibility = if (activity.labelPanel!!.editingForm) View.VISIBLE else View.GONE

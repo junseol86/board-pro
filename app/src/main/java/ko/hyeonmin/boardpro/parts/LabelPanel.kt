@@ -60,14 +60,18 @@ class LabelPanel(val activity: ConsoleActivity) {
     fun setInterfaceText() {
 //        항목 foNm, fiNm 값에 따라 파일명, 폴더명을 표시
         for (i in 0 until JSONArray(selectedForm["items"].toString()).length()) {
-            var jo = JSONArray(selectedForm["items"].toString())[i] as JSONObject
-            if (Integer.parseInt(jo["foNm"].toString()) == 1) {
-                folderNameTV.text = "폴더명: " + jo["name"].toString()
-            }
-            if (Integer.parseInt(jo["fiNm"].toString()) == 1) {
-                fileNameTV.text = "파일명: " + jo["name"].toString()
-            }
+//            var jo = JSONArray(selectedForm["items"].toString())[i] as JSONObject
+//            if (Integer.parseInt(jo["folderName"].toString()) == 1) {
+//                folderNameTV.text = "폴더명: " + jo["name"].toString()
+//            }
+//            if (Integer.parseInt(jo["fileName"].toString()) == 1) {
+//                fileNameTV.text = "파일명: " + jo["name"].toString()
+//            }
         }
+    }
+
+    fun saveToLastForm() {
+
     }
 
 }

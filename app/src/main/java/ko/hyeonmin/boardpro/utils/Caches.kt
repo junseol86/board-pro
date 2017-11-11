@@ -3,6 +3,10 @@ package ko.hyeonmin.boardpro.utils
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
+import com.google.gson.Gson
+import ko.hyeonmin.boardpro.models.Form
+import ko.hyeonmin.boardpro.models.Item
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -27,64 +31,23 @@ class Caches(val activity: Activity) {
         }
 
     init {
+
+        formsJson = ""
+
         if (formsJson == "") {
-            var formsArray = JSONArray()
 
-            val form1 = JSONObject()
-            form1.put("title", "기본서식")
+            var itemList = ArrayList<Item>()
+            itemList.add(Item("공사명", "text", "공사명 입력", "", true, false))
+            itemList.add(Item("공종", "text", "공종 입력", "", false, true))
+            itemList.add(Item("위치", "text", "위치 입력", "", false, false))
+            itemList.add(Item("내용", "text", "내용 입력", "", false, false))
+            itemList.add(Item("날짜", "date", "", "yyyy-mm-dd", false, false))
 
-            val itemsArray = JSONArray()
+            var form1 = Form("기본서식", "2017-11-11", itemList)
+            var formsList = ArrayList<Form>()
+            formsList.add(form1)
+            formsJson = Gson().toJson(formsList)
 
-            val item1 = JSONObject()
-            item1.put("name", "공사명")
-            item1.put("type", "text")
-            item1.put("content", "공사명 입력")
-            item1.put("dateForm", "")
-            item1.put("foNm", "1")
-            item1.put("fiNm", "0")
-
-            val item2 = JSONObject()
-            item2.put("name", "공종")
-            item2.put("type", "text")
-            item2.put("content", "공종 입력")
-            item2.put("dateForm", "")
-            item2.put("foNm", "0")
-            item2.put("fiNm", "1")
-
-            val item3 = JSONObject()
-            item3.put("name", "위치")
-            item3.put("type", "text")
-            item3.put("content", "위치 입력")
-            item3.put("dateForm", "")
-            item3.put("foNm", "0")
-            item3.put("fiNm", "0")
-
-            val item4 = JSONObject()
-            item4.put("name", "내용")
-            item4.put("type", "text")
-            item4.put("content", "내용 입력")
-            item4.put("dateForm", "")
-            item4.put("foNm", "0")
-            item4.put("fiNm", "0")
-
-            val item5 = JSONObject()
-            item5.put("name", "일자")
-            item5.put("type", "date")
-            item5.put("content", "")
-            item5.put("dateForm", "yyyy.mm.dd")
-            item5.put("foNm", "0")
-            item5.put("fiNm", "0")
-
-            itemsArray.put(item1)
-            itemsArray.put(item2)
-            itemsArray.put(item3)
-            itemsArray.put(item4)
-            itemsArray.put(item5)
-
-            form1.put("items", itemsArray)
-            formsArray.put(form1)
-
-            formsJson = formsArray.toString()
         }
 
     }
