@@ -7,6 +7,7 @@ import android.util.Log
 import com.google.gson.Gson
 import ko.hyeonmin.boardpro.models.Form
 import ko.hyeonmin.boardpro.models.Item
+import ko.hyeonmin.boardpro.models.ItemContent
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -30,24 +31,39 @@ class Caches(val activity: Activity) {
             formsSF.edit().putString("lastUsedFormJson", value).commit()
         }
 
+    var itemContentsJson: String
+        get() = formsSF.getString("itemContentsJSON", "")
+        set(value) {
+            formsSF.edit().putString("itemContentsJSON", value).commit()
+        }
+
     init {
-
-        formsJson = ""
-
+//        formsJson = ""
         if (formsJson == "") {
 
             var itemList = ArrayList<Item>()
-            itemList.add(Item("공사명", "text", "공사명 입력", "", true, false))
-            itemList.add(Item("공종", "text", "공종 입력", "", false, true))
-            itemList.add(Item("위치", "text", "위치 입력", "", false, false))
-            itemList.add(Item("내용", "text", "내용 입력", "", false, false))
-            itemList.add(Item("날짜", "date", "", "yyyy-mm-dd", false, false))
+            itemList.add(Item("공사명", "text", "", "보드프로사옥\n기초공사", true, false))
+            itemList.add(Item("공종", "text", "", "토공", false, true))
+            itemList.add(Item("위치", "text", "", "위치 입력", false, false))
+            itemList.add(Item("내용", "text", "", "내용 입력", false, false))
+            itemList.add(Item("날짜", "date", "yyyy-MM-dd", "", false, false))
 
             var form1 = Form("기본서식", "2017-11-11", itemList)
-            var formsList = ArrayList<Form>()
-            formsList.add(form1)
-            formsJson = Gson().toJson(formsList)
+            var formList = ArrayList<Form>()
+            formList.add(form1)
+            formsJson = Gson().toJson(formList)
+        }
 
+//        itemContentsJson = ""
+        if (itemContentsJson == "") {
+            var contentList = ArrayList<String>()
+            contentList.add("토공")
+            contentList.add("토공사")
+
+            var itemContent = ItemContent("공종", contentList)
+            var itemContentList = ArrayList<ItemContent>()
+            itemContentList.add(itemContent)
+            itemContentsJson = Gson().toJson(itemContentList)
         }
 
     }

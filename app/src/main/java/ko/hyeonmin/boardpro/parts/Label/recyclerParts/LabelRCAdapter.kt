@@ -1,9 +1,11 @@
 package ko.hyeonmin.boardpro.parts.recyclerParts
 
+import android.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -11,8 +13,8 @@ import android.widget.ImageView
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.activities.ConsoleActivity
 import ko.hyeonmin.boardpro.viewExtension.LabelRCButton
-import org.json.JSONArray
-import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by junse on 2017-11-06.
@@ -33,11 +35,10 @@ class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelR
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val jo = JSONArray(activity.labelPanel!!.selectedForm["items"].toString())[position] as JSONObject
-        holder?.nameEt?.setText(jo["name"].toString())
+        val item = activity.labelPanel!!.selectedForm.items[position]
+        holder?.nameEt?.setText(item.name)
         holder?.nameEt?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                val items = JSONArray(activity.labelPanel!!.selectedForm["items"].toString())
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -47,14 +48,41 @@ class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelR
             }
 
         })
-        holder?.contentEt?.setText(jo["content"].toString())
+        holder?.contentEt?.setText(
+                if (item.type == "text")
+                    item.content
+                else {
+                    SimpleDateFormat(item.dateForm).format(Date())
+                })
         holder?.handleBtn?.visibility = if (activity.labelPanel!!.editingForm) View.VISIBLE else View.GONE
         holder?.deleteBtn?.visibility = if (activity.labelPanel!!.editingForm) View.VISIBLE else View.GONE
-        holder?.selectBtnImg?.setImageResource(if (jo["type"].toString() == "text") R.drawable.cs_lb_rc_select else R.drawable.cs_lb_rc_date)
+        holder?.selectBtnImg?.setImageResource(if (item.type == "text") R.drawable.cs_lb_rc_select else R.drawable.cs_lb_rc_date)
+        holder?.selectBtn?.setOnTouchListener { view, event ->
+            holder?.selectBtn?.onTouch(view, event)
+            if (event.action == MotionEvent.ACTION_UP) {
+                if (item.type == "text") {
+                    activity.labelPanel?.itemContents?.map {
+                        if (it.itemName == item.name) {
+                            var contents = Array(it.contentList.size, {i -> it.contentList[i]})
+                            AlertDialog.Builder(activity)
+                                    .setTitle(item.name + " 선택")
+                                    .setItems(contents, { _, contentPosition ->
+                                        item.content = contents[contentPosition]
+                                        notifyItemChanged(position)
+                                    })
+                                    .show()
+                        }
+                    }
+                } else {
+
+                }
+            }
+            false
+        }
     }
 
     override fun getItemCount(): Int {
-        return JSONArray(activity.labelPanel!!.selectedForm["items"].toString()).length()
+        return activity.labelPanel!!.selectedForm.items.size
     }
 
 }

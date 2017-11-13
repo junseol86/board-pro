@@ -68,7 +68,7 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginLeft="6dp"
                 android:background="@drawable/edit_text_bg"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:paddingLeft="10dp"
                 />
         </android.support.constraint.ConstraintLayout>
@@ -94,7 +94,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
                 android:background="@drawable/edit_text_bg"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:paddingLeft="10dp"
                 />
         </android.support.constraint.ConstraintLayout>

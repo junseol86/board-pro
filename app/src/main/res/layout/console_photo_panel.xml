@@ -41,12 +41,22 @@
                 app:layout_constraintRight_toLeftOf="@+id/photoPanelTopDivider"
                 >
                 <ImageView
+                    android:id="@+id/photoFolderImg"
                     android:layout_width="44dp"
                     android:layout_height="0dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:src="@drawable/cs_pt_folder"
+                    />
+                <TextView
+                    android:id="@+id/photoFolderText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/photoFolderImg"
+                    android:textColor="@color/white"
                     />
                 <ImageView
                     android:layout_width="22dp"

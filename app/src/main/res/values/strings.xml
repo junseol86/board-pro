@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">BoardPro</string>
+    <string-array name="day_format">
+        <item>yyyy-MM-dd</item>
+        <item>yyyy.MM.dd</item>
+        <item>yyyy/MM/dd</item>
+    </string-array>
+    <string-array name="time_format">
+        <item></item>
+        <item>HH:mm:ss</item>
+        <item>hh:mm:ss AA</item>
+        <item>HH-mm-ss</item>
+    </string-array>
 </resources>
