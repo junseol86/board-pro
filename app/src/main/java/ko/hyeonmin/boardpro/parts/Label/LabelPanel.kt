@@ -1,6 +1,7 @@
 package ko.hyeonmin.boardpro.parts.Label
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.activities.ConsoleActivity
+import ko.hyeonmin.boardpro.activities.LabelEditActivity
 import ko.hyeonmin.boardpro.models.Form
 import ko.hyeonmin.boardpro.models.ItemContent
 import ko.hyeonmin.boardpro.parts.Photo.PhotoPanel
@@ -24,15 +26,9 @@ import org.json.JSONObject
  */
 class LabelPanel(val activity: ConsoleActivity) {
 
-    var editingForm: Boolean = false
+    val EDIT_LABEL = 0
+
     var currentFormTitle: TextView = activity.findViewById(R.id.currentFormTitle)
-
-    var labelPanelBottom: ConstraintLayout = activity.findViewById(R.id.labelPanelBottom)
-
-    var folderNameWb: WhiteButton = activity.findViewById(R.id.labelFolderName)
-    var folderNameTV: TextView = activity.findViewById(R.id.folderNameTV)
-    var fileNameWb: WhiteButton = activity.findViewById(R.id.labelFileName)
-    var fileNameTV: TextView = activity.findViewById(R.id.fileNameTV)
 
     private var formArray: JSONArray = JSONArray(activity.caches?.formsJson)
     private var forms: ArrayList<Form> = Gson().fromJson(activity.caches?.formsJson, object : TypeToken<ArrayList<Form>>() {}.type)
@@ -55,24 +51,7 @@ class LabelPanel(val activity: ConsoleActivity) {
         editFormBtn.setOnTouchListener { view, event ->
             editFormBtn.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP) {
-                editingForm = !editingForm
-                labelPanelBottom.visibility = if (editingForm) View.VISIBLE else View.GONE
-                labelRCAdapter.notifyDataSetChanged()
-            }
-            false
-        }
-
-        folderNameWb.setOnTouchListener { view, event ->
-            folderNameWb.onTouch(view, event)
-            if (event.action == MotionEvent.ACTION_UP) {
-                setFolderFileName(true)
-            }
-            false
-        }
-        fileNameWb.setOnTouchListener { view, event ->
-            fileNameWb.onTouch(view, event)
-            if (event.action == MotionEvent.ACTION_UP) {
-                setFolderFileName(false)
+                editFormStart()
             }
             false
         }
@@ -112,16 +91,29 @@ class LabelPanel(val activity: ConsoleActivity) {
 //        항목 foNm, fiNm 값에 따라 파일명, 폴더명을 표시
         selectedForm.items.map {
             if (it.folderName) {
-                folderNameTV.text = "폴더명: " + it.name
                 activity.photoPanel?.setPhotoFolder(it.name.replace(" ", "_").replace("\n", "_"))
             }
             if (it.fileName) {
-                fileNameTV.text = "파일명: " + it.name
             }
         }
     }
 
+    // 현재 입력된 서식을 입시로 캐시화
+    fun cacheCurrentFormToTemp() {
+        val selectedFormJson = Gson().toJson(selectedForm)
+        activity.caches?.tempFormJson = selectedFormJson
+    }
 
+    fun editFormStart() {
+        cacheCurrentFormToTemp()
+        var intent = Intent(activity, LabelEditActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+        activity.startActivityForResult(intent, EDIT_LABEL)
+    }
+
+    fun editFormResult() {
+
+    }
 
     fun saveToLastForm() {
 

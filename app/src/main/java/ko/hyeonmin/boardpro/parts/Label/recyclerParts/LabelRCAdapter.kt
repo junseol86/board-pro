@@ -22,8 +22,6 @@ import java.util.*
 class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelRCAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val handleBtn: LabelRCButton = view.findViewById(R.id.label_rc_handle)
-        val deleteBtn: LabelRCButton = view.findViewById(R.id.label_rc_delete)
         val nameEt: EditText = view.findViewById(R.id.label_rc_name_et)
         val contentEt: EditText = view.findViewById(R.id.label_rc_content_et)
         val selectBtn: LabelRCButton = view.findViewById(R.id.label_rc_select)
@@ -39,14 +37,11 @@ class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelR
         holder?.nameEt?.setText(item.name)
         holder?.nameEt?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
+                if (item!!.type == "text")
+                    activity.labelPanel!!.selectedForm.items[position].name = p0!!.toString()
             }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
         holder?.contentEt?.setText(
                 if (item.type == "text")
@@ -54,8 +49,14 @@ class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelR
                 else {
                     SimpleDateFormat(item.dateForm).format(Date())
                 })
-        holder?.handleBtn?.visibility = if (activity.labelPanel!!.editingForm) View.VISIBLE else View.GONE
-        holder?.deleteBtn?.visibility = if (activity.labelPanel!!.editingForm) View.VISIBLE else View.GONE
+        holder?.contentEt?.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                if (item!!.type == "text")
+                    activity.labelPanel!!.selectedForm.items[position].content = p0!!.toString()
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        })
         holder?.selectBtnImg?.setImageResource(if (item.type == "text") R.drawable.cs_lb_rc_select else R.drawable.cs_lb_rc_date)
         holder?.selectBtn?.setOnTouchListener { view, event ->
             holder?.selectBtn?.onTouch(view, event)
