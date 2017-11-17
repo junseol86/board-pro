@@ -19,6 +19,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            android:background="@color/label_button_off"
             >
             <EditText
                 android:id="@+id/label_rc_name_et"
@@ -44,6 +45,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/label_rc_name"
+            android:background="@color/label_button_off"
             >
             <EditText
                 android:id="@+id/label_rc_content_et"

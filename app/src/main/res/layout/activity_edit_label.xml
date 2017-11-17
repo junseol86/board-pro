@@ -37,6 +37,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/editLabelAddImg"
+                android:textColor="@color/text_color"
+                android:textSize="15sp"
                 android:text="항목 추가"
                 />
         </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
@@ -62,6 +64,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/editLabelSaveImg"
+                android:textColor="@color/text_color"
+                android:textSize="15sp"
                 android:text="서식 저장"
                 />
         </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
@@ -70,7 +74,7 @@
         android:id="@+id/editLabelRV"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:background="@color/label_button_off"
         app:layout_constraintTop_toBottomOf="@id/editLabelTop"
         app:layout_constraintBottom_toTopOf="@id/editLabelBottom"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -106,6 +110,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
+                android:textColor="@color/text_color"
+                android:textSize="15sp"
                 android:text="폴더명:"
                 />
             <ImageView
@@ -135,6 +141,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
+                android:textColor="@color/text_color"
+                android:textSize="15sp"
                 android:text="파일명:"
                 />
             <ImageView
@@ -162,7 +170,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:textSize="17dp"
+            android:textSize="17sp"
             android:textColor="@color/white"
             android:text="확인"
             />

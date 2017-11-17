@@ -2,17 +2,15 @@ package ko.hyeonmin.boardpro.parts.Label
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
-import android.view.View
 import android.widget.TextView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.activities.ConsoleActivity
-import ko.hyeonmin.boardpro.activities.LabelEditActivity
+import ko.hyeonmin.boardpro.activities.EditLabelActivity
 import ko.hyeonmin.boardpro.models.Form
 import ko.hyeonmin.boardpro.models.ItemContent
 import ko.hyeonmin.boardpro.parts.Photo.PhotoPanel
@@ -106,7 +104,7 @@ class LabelPanel(val activity: ConsoleActivity) {
 
     fun editFormStart() {
         cacheCurrentFormToTemp()
-        var intent = Intent(activity, LabelEditActivity::class.java)
+        var intent = Intent(activity, EditLabelActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
         activity.startActivityForResult(intent, EDIT_LABEL)
     }

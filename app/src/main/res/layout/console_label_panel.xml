@@ -9,14 +9,15 @@
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
-    android:background="@color/label_button_off"
+    android:background="@color/label_border"
     >
     <android.support.constraint.ConstraintLayout
         android:id="@+id/labelPanelTop"
         android:layout_width="0dp"
         android:layout_height="44dp"
-        android:background="@color/white_button_off"
+        android:background="@color/label_border"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelPanelContent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         >
@@ -27,7 +28,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/labelPanelTopDivider"
+            app:layout_constraintRight_toLeftOf="@+id/saveForm"
+            android:layout_marginRight="1dp"
             >
             <ImageView
                 android:id="@+id/selectFormIcon"
@@ -44,6 +46,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/selectFormIcon"
                 android:textColor="@color/text_color"
+                android:textSize="15sp"
                 />
             <ImageView
                 android:layout_width="22dp"
@@ -52,24 +55,13 @@
                 app:layout_constraintRight_toRightOf="parent"
                 />
         </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/labelPanelTopDivider"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/selectForm"
-            app:layout_constraintRight_toLeftOf="@+id/saveForm"
-            android:background="@color/label_border"
-            >
-        </android.support.constraint.ConstraintLayout>
         <ko.hyeonmin.boardpro.viewExtension.WhiteButton
             android:id="@+id/saveForm"
             android:layout_width="44dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/labelPanelTopDivider"
+            app:layout_constraintLeft_toRightOf="@id/selectForm"
             app:layout_constraintRight_toLeftOf="@id/editForm"
             >
             <ImageView
@@ -95,22 +87,14 @@
         </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
     </android.support.constraint.ConstraintLayout>
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/labelPanelTopBorder"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        app:layout_constraintTop_toBottomOf="@id/labelPanelTop"
-        app:layout_constraintBottom_toTopOf="@id/labelPanelContent"
-        android:background="@color/label_border"
-        >
-    </android.support.constraint.ConstraintLayout>
-    <android.support.constraint.ConstraintLayout
         android:id="@+id/labelPanelContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/labelPanelTopBorder"
+        app:layout_constraintTop_toBottomOf="@id/labelPanelTop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="1dp"
         >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/labelRecyclerView"
@@ -122,6 +106,5 @@
             app:layout_constraintRight_toRightOf="parent"
             />
     </android.support.constraint.ConstraintLayout>
-
 </android.support.constraint.ConstraintLayout>
 
