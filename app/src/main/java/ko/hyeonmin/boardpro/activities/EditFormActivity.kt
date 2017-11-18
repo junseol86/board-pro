@@ -66,10 +66,10 @@ class EditFormActivity : Activity() {
         editFormSaveBtn = findViewById(R.id.editFormSaveBtn)
 
         editFormRV = findViewById(R.id.editFormRV)
-        editFormAD = EditFormRCAdapter(this)
         editFormRV?.setHasFixedSize(true)
         editFormLM = LinearLayoutManager(this)
-        editFormRV?.adapter = editFormAD
+
+        applyForm()
 
         editFormRV?.layoutManager = editFormLM
 
@@ -95,6 +95,11 @@ class EditFormActivity : Activity() {
         setFolderFileNameResult()
     }
 
+    fun applyForm() {
+        editFormAD = EditFormRCAdapter(this)
+        editFormRV?.adapter = editFormAD
+    }
+
     fun setFolderOrFileName(isFolder: Boolean) {
         var itemNames = Array<String>(forms!![0].items.size, { i ->
             forms!![0].items[i].name
@@ -116,7 +121,19 @@ class EditFormActivity : Activity() {
 
     // 폴더명이나 파일명이 없는 상황이 발생하지 않도록
     fun secureFolderFileName() {
-
+        var hasFolderName = false
+        var hasFileName = false
+        forms!![0].items.map {
+            if (it.folderName)
+                hasFolderName = true
+            if (it.fileName)
+                hasFileName = true
+        }
+        if (!hasFolderName)
+            forms!![0].items[0].folderName = true
+        if (!hasFileName)
+            forms!![0].items[0].fileName = true
+        setFolderFileNameResult()
     }
 
     fun setFolderFileNameResult() {

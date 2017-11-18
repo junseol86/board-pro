@@ -64,7 +64,7 @@
                 android:paddingLeft="10dp"
                 />
         </android.support.constraint.ConstraintLayout>
-        <ko.hyeonmin.boardpro.viewExtension.LabelRCButton
+        <ko.hyeonmin.boardpro.viewExtension.FormRCButton
             android:id="@+id/form_rc_select"
             android:layout_width="44dp"
             android:layout_height="0dp"
@@ -83,7 +83,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:src="@drawable/cs_lb_rc_select"
                 />
-        </ko.hyeonmin.boardpro.viewExtension.LabelRCButton>
+        </ko.hyeonmin.boardpro.viewExtension.FormRCButton>
     </android.support.constraint.ConstraintLayout>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/form_vh_border"

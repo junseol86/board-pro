@@ -16,7 +16,7 @@ import ko.hyeonmin.boardpro.R
  * Created by junse on 2017-11-06.
  */
 
-class LabelRCButton : ConstraintLayout, View.OnTouchListener {
+class FormRCButton : ConstraintLayout, View.OnTouchListener {
 
     var touched = false
     private var buttonRect: Rect = Rect(0, 0, 0, 0)

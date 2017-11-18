@@ -12,7 +12,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.activities.ConsoleActivity
-import ko.hyeonmin.boardpro.viewExtension.LabelRCButton
+import ko.hyeonmin.boardpro.viewExtension.FormRCButton
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,7 +24,7 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val nameEt: EditText = view.findViewById(R.id.form_rc_name_et)
         val contentEt: EditText = view.findViewById(R.id.form_rc_content_et)
-        val selectBtn: LabelRCButton = view.findViewById(R.id.form_rc_select)
+        val selectBtn: FormRCButton = view.findViewById(R.id.form_rc_select)
         val selectBtnImg: ImageView = view.findViewById(R.id.form_rc_select_img)
     }
 

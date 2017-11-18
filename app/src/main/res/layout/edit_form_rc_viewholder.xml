@@ -13,7 +13,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:background="@color/form_button_off"
         >
-        <ko.hyeonmin.boardpro.viewExtension.LabelRCButton
+        <ko.hyeonmin.boardpro.viewExtension.FormRCButton
             android:id="@+id/editFormHandle"
             android:layout_width="44dp"
             android:layout_height="0dp"
@@ -30,8 +30,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:src="@drawable/cs_lb_rc_handle"
                 />
-        </ko.hyeonmin.boardpro.viewExtension.LabelRCButton>
-        <ko.hyeonmin.boardpro.viewExtension.LabelRCButton
+        </ko.hyeonmin.boardpro.viewExtension.FormRCButton>
+        <ko.hyeonmin.boardpro.viewExtension.FormRCButton
             android:id="@+id/editFormDelete"
             android:layout_width="44dp"
             android:layout_height="0dp"
@@ -48,7 +48,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:src="@drawable/cs_lb_rc_delete"
                 />
-        </ko.hyeonmin.boardpro.viewExtension.LabelRCButton>
+        </ko.hyeonmin.boardpro.viewExtension.FormRCButton>
         <android.support.constraint.ConstraintLayout
             android:id="@+id/editFormType"
             android:layout_width="44dp"
