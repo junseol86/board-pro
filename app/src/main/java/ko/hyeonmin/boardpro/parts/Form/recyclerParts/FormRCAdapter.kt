@@ -19,26 +19,26 @@ import java.util.*
 /**
  * Created by junse on 2017-11-06.
  */
-class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelRCAdapter.ViewHolder>() {
+class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val nameEt: EditText = view.findViewById(R.id.label_rc_name_et)
-        val contentEt: EditText = view.findViewById(R.id.label_rc_content_et)
-        val selectBtn: LabelRCButton = view.findViewById(R.id.label_rc_select)
-        val selectBtnImg: ImageView = view.findViewById(R.id.label_rc_select_img)
+        val nameEt: EditText = view.findViewById(R.id.form_rc_name_et)
+        val contentEt: EditText = view.findViewById(R.id.form_rc_content_et)
+        val selectBtn: LabelRCButton = view.findViewById(R.id.form_rc_select)
+        val selectBtnImg: ImageView = view.findViewById(R.id.form_rc_select_img)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-        return ViewHolder(LayoutInflater.from(parent!!.context).inflate(R.layout.console_label_rc_viewholder, parent, false))
+        return ViewHolder(LayoutInflater.from(parent!!.context).inflate(R.layout.console_form_rc_viewholder, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val item = activity.labelPanel!!.selectedForm.items[position]
+        val item = activity.formPanel!!.forms!![0].items[position]
         holder?.nameEt?.setText(item.name)
         holder?.nameEt?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                if (item!!.type == "text")
-                    activity.labelPanel!!.selectedForm.items[position].name = p0!!.toString()
+                if (item.type == "text")
+                    activity.formPanel!!.forms!![0].items[position].name = p0!!.toString()
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -51,8 +51,8 @@ class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelR
                 })
         holder?.contentEt?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                if (item!!.type == "text")
-                    activity.labelPanel!!.selectedForm.items[position].content = p0!!.toString()
+                if (item.type == "text")
+                    activity.formPanel!!.forms!![0].items[position].content = p0!!.toString()
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -62,7 +62,7 @@ class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelR
             holder?.selectBtn?.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP) {
                 if (item.type == "text") {
-                    activity.labelPanel?.itemContents?.map {
+                    activity.formPanel?.itemContents?.map {
                         if (it.itemName == item.name) {
                             var contents = Array(it.contentList.size, {i -> it.contentList[i]})
                             AlertDialog.Builder(activity)
@@ -83,7 +83,7 @@ class LabelRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<LabelR
     }
 
     override fun getItemCount(): Int {
-        return activity.labelPanel!!.selectedForm.items.size
+        return activity.formPanel!!.forms!![0].items.size
     }
 
 }

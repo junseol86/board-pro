@@ -25,18 +25,6 @@ class Caches(val activity: Activity) {
             formsSF.edit().putString("formsJSON", value).commit()
         }
 
-    var lastUsedFormJson: String
-        get() = formsSF.getString("lastUsedFormJson", "")
-        set(value) {
-            formsSF.edit().putString("lastUsedFormJson", value).commit()
-        }
-
-    var tempFormJson: String
-        get() = formsSF.getString("tempFormJson", "")
-        set(value) {
-            formsSF.edit().putString("tempFormJson", value).commit()
-        }
-
     var itemContentsJson: String
         get() = formsSF.getString("itemContentsJSON", "")
         set(value) {
@@ -44,7 +32,7 @@ class Caches(val activity: Activity) {
         }
 
     init {
-        formsJson = ""
+//        formsJson = ""
         if (formsJson == "") {
 
             var itemList = ArrayList<Item>()

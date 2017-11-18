@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="ko.hyeonmin.boardpro.activities.ConsoleActivity">
 
-    <include layout="@layout/console_label_panel"></include>
+    <include layout="@layout/console_form_panel"></include>
     <include layout="@layout/console_photo_panel"></include>
 
 </android.support.constraint.ConstraintLayout>

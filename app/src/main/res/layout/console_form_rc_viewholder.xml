@@ -4,25 +4,25 @@
     android:layout_height="48dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/label_vh_over_border"
+        android:id="@+id/form_vh_over_border"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/label_vh_border"
+        app:layout_constraintBottom_toTopOf="@id/form_vh_border"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         >
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/label_rc_name"
+            android:id="@+id/form_rc_name"
             android:layout_width="80dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:background="@color/label_button_off"
+            android:background="@color/form_button_off"
             >
             <EditText
-                android:id="@+id/label_rc_name_et"
+                android:id="@+id/form_rc_name_et"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -38,17 +38,17 @@
                 />
         </android.support.constraint.ConstraintLayout>
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/label_rc_content"
+            android:id="@+id/form_rc_content"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintRight_toLeftOf="@+id/label_rc_select"
+            app:layout_constraintRight_toLeftOf="@+id/form_rc_select"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/label_rc_name"
-            android:background="@color/label_button_off"
+            app:layout_constraintLeft_toRightOf="@id/form_rc_name"
+            android:background="@color/form_button_off"
             >
             <EditText
-                android:id="@+id/label_rc_content_et"
+                android:id="@+id/form_rc_content_et"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -65,16 +65,16 @@
                 />
         </android.support.constraint.ConstraintLayout>
         <ko.hyeonmin.boardpro.viewExtension.LabelRCButton
-            android:id="@+id/label_rc_select"
+            android:id="@+id/form_rc_select"
             android:layout_width="44dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/label_rc_content"
+            app:layout_constraintLeft_toRightOf="@id/form_rc_content"
             app:layout_constraintRight_toRightOf="parent"
             >
             <ImageView
-                android:id="@+id/label_rc_select_img"
+                android:id="@+id/form_rc_select_img"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -86,14 +86,14 @@
         </ko.hyeonmin.boardpro.viewExtension.LabelRCButton>
     </android.support.constraint.ConstraintLayout>
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/label_vh_border"
+        android:id="@+id/form_vh_border"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        app:layout_constraintTop_toBottomOf="@id/label_vh_over_border"
+        app:layout_constraintTop_toBottomOf="@id/form_vh_over_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/label_vh_border"
+        android:background="@color/form_vh_border"
         >
     </android.support.constraint.ConstraintLayout>
 

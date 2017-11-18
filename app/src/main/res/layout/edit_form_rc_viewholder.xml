@@ -4,17 +4,17 @@
     android:layout_height="49dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="1dp"
-    android:background="@color/label_vh_border">
+    android:background="@color/form_vh_border">
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="48dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/label_button_off"
+        android:background="@color/form_button_off"
         >
         <ko.hyeonmin.boardpro.viewExtension.LabelRCButton
-            android:id="@+id/editLabelHandle"
+            android:id="@+id/editFormHandle"
             android:layout_width="44dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,12 +32,12 @@
                 />
         </ko.hyeonmin.boardpro.viewExtension.LabelRCButton>
         <ko.hyeonmin.boardpro.viewExtension.LabelRCButton
-            android:id="@+id/editLabelDelete"
+            android:id="@+id/editFormDelete"
             android:layout_width="44dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/editLabelHandle"
+            app:layout_constraintLeft_toRightOf="@id/editFormHandle"
             >
             <ImageView
                 android:layout_width="0dp"
@@ -50,15 +50,15 @@
                 />
         </ko.hyeonmin.boardpro.viewExtension.LabelRCButton>
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/editLabelType"
+            android:id="@+id/editFormType"
             android:layout_width="44dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/editLabelDelete"
+            app:layout_constraintLeft_toRightOf="@id/editFormDelete"
             >
             <ImageView
-                android:id="@+id/editLabelTypeImg"
+                android:id="@+id/editFormTypeImg"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -72,11 +72,11 @@
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/editLabelType"
+            app:layout_constraintLeft_toRightOf="@id/editFormType"
             app:layout_constraintRight_toRightOf="parent"
             >
             <EditText
-                android:id="@+id/editLabelName"
+                android:id="@+id/editFormName"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="parent"

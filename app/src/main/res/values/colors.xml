@@ -8,11 +8,11 @@
 
     <color name="text_color">#333333</color>
 
-    <color name="label_bg">#FAFAFA</color>
-    <color name="label_border">#E0E0E0</color>
-    <color name="label_border_darker">#555555</color>
-    <color name="label_vh_border">#EEEEEE</color>
-    <color name="label_edit_text_border">#F5F5F5</color>
+    <color name="form_bg">#FAFAFA</color>
+    <color name="form_border">#E0E0E0</color>
+    <color name="form_border_darker">#555555</color>
+    <color name="form_vh_border">#EEEEEE</color>
+    <color name="form_edit_text_border">#F5F5F5</color>
 
     <color name="photo_bg">#333333</color>
 
@@ -20,6 +20,6 @@
     <color name="white_button_on">#F0F0F0</color>
     <color name="black_button_off">#222222</color>
     <color name="black_button_on">#000000</color>
-    <color name="label_button_on">#EEEEEE</color>
-    <color name="label_button_off">#FAFAFA</color>
+    <color name="form_button_on">#EEEEEE</color>
+    <color name="form_button_off">#FAFAFA</color>
 </resources>

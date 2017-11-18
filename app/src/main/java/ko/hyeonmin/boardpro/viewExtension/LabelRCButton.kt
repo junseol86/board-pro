@@ -35,7 +35,7 @@ class LabelRCButton : ConstraintLayout, View.OnTouchListener {
         super.onDraw(canvas)
         buttonRect.set(0, 0, width, height)
         buttonPaint.style = Paint.Style.FILL
-        buttonPaint.color = ResourcesCompat.getColor(resources, if (touched) R.color.label_button_on else R.color.label_button_off, null)
+        buttonPaint.color = ResourcesCompat.getColor(resources, if (touched) R.color.form_button_on else R.color.form_button_off, null)
         canvas?.drawRect(buttonRect, buttonPaint)
     }
 

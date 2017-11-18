@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/label_border"
+    android:background="@color/form_border"
     >
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/editLabelTop"
+        android:id="@+id/editFormTop"
         android:layout_width="0dp"
         android:layout_height="44dp"
         android:background="@color/white_button_off"
@@ -15,6 +15,7 @@
         app:layout_constraintRight_toRightOf="parent"
         >
         <ko.hyeonmin.boardpro.viewExtension.WhiteButton
+            android:id="@+id/editFormAddBtn"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +24,7 @@
             android:paddingRight="16dp"
             >
             <ImageView
-                android:id="@+id/editLabelAddImg"
+                android:id="@+id/editFormAddImg"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -36,13 +37,14 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/editLabelAddImg"
+                app:layout_constraintLeft_toRightOf="@id/editFormAddImg"
                 android:textColor="@color/text_color"
                 android:textSize="15sp"
                 android:text="항목 추가"
                 />
         </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
         <ko.hyeonmin.boardpro.viewExtension.WhiteButton
+            android:id="@+id/editFormSaveBtn"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,7 +53,7 @@
             android:paddingRight="16dp"
             >
             <ImageView
-                android:id="@+id/editLabelSaveImg"
+                android:id="@+id/editFormSaveImg"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -63,48 +65,48 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/editLabelSaveImg"
+                app:layout_constraintLeft_toRightOf="@id/editFormSaveImg"
                 android:textColor="@color/text_color"
                 android:textSize="15sp"
-                android:text="서식 저장"
+                android:text="다른 이름으로 저장"
                 />
         </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
     </android.support.constraint.ConstraintLayout>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/editLabelRV"
+        android:id="@+id/editFormRV"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/label_button_off"
-        app:layout_constraintTop_toBottomOf="@id/editLabelTop"
-        app:layout_constraintBottom_toTopOf="@id/editLabelBottom"
+        android:background="@color/form_button_off"
+        app:layout_constraintTop_toBottomOf="@id/editFormTop"
+        app:layout_constraintBottom_toTopOf="@id/editFormBottom"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="1dp"
         />
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/editLabelBottom"
+        android:id="@+id/editFormBottom"
         android:layout_width="0dp"
         android:layout_height="44dp"
-        app:layout_constraintTop_toBottomOf="@id/editLabelRV"
-        app:layout_constraintBottom_toTopOf="@id/editLabelOkBtn"
+        app:layout_constraintTop_toBottomOf="@id/editFormRV"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="1dp"
         >
         <ko.hyeonmin.boardpro.viewExtension.WhiteButton
-            android:id="@+id/editLabelFolderName"
+            android:id="@+id/editFormFolderName"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/editLabelFileName"
+            app:layout_constraintRight_toLeftOf="@+id/editFormFileName"
             android:layout_marginRight="1dp"
             android:paddingLeft="14dp"
             android:paddingRight="2dp"
             >
             <TextView
-                android:id="@+id/editLabelFolderNameTV"
+                android:id="@+id/editFormFolderNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
@@ -124,18 +126,18 @@
                 />
         </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
         <ko.hyeonmin.boardpro.viewExtension.WhiteButton
-            android:id="@+id/editLabelFileName"
+            android:id="@+id/editFormFileName"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/editLabelFolderName"
+            app:layout_constraintLeft_toRightOf="@id/editFormFolderName"
             android:paddingLeft="14dp"
             android:paddingRight="2dp"
             >
             <TextView
-                android:id="@+id/editLabelFileNameTV"
+                android:id="@+id/editFormFileNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
@@ -155,25 +157,4 @@
                 />
         </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
     </android.support.constraint.ConstraintLayout>
-    <ko.hyeonmin.boardpro.viewExtension.BlackButton
-        android:id="@+id/editLabelOkBtn"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:textSize="17sp"
-            android:textColor="@color/white"
-            android:text="확인"
-            />
-
-    </ko.hyeonmin.boardpro.viewExtension.BlackButton>
 </android.support.constraint.ConstraintLayout>
