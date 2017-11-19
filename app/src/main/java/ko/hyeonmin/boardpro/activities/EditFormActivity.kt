@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.MotionEvent
 import android.view.Window
@@ -15,6 +16,7 @@ import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.models.Form
 import ko.hyeonmin.boardpro.models.Item
 import ko.hyeonmin.boardpro.parts.Form.recyclerParts.EditFormRCAdapter
+import ko.hyeonmin.boardpro.parts.Form.recyclerParts.EditFormTHCallback
 import ko.hyeonmin.boardpro.utils.Caches
 import ko.hyeonmin.boardpro.viewExtension.WhiteButton
 
@@ -30,6 +32,7 @@ class EditFormActivity : Activity() {
 
     var editFormRV: RecyclerView? = null
     var editFormAD: EditFormRCAdapter? = null
+    var editFormTH: ItemTouchHelper? = null
     var editFormLM: RecyclerView.LayoutManager? = null
 
     var folderNameBtn: WhiteButton? = null
@@ -98,6 +101,8 @@ class EditFormActivity : Activity() {
     fun applyForm() {
         editFormAD = EditFormRCAdapter(this)
         editFormRV?.adapter = editFormAD
+        editFormTH = ItemTouchHelper(EditFormTHCallback(editFormAD!!))
+        editFormTH?.attachToRecyclerView(editFormRV)
     }
 
     fun setFolderOrFileName(isFolder: Boolean) {

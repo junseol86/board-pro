@@ -3,6 +3,7 @@ package ko.hyeonmin.boardpro.parts.Form.recyclerParts
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -13,15 +14,20 @@ import android.widget.Toast
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.activities.EditFormActivity
 import ko.hyeonmin.boardpro.viewExtension.FormRCButton
+import java.util.*
 
 /**
  * Created by junse on 2017-11-17.
  */
 class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<EditFormRCAdapter.ViewHolder>() {
 
+    var itemFrom = 0
+    var itemTo = 0
+
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val typeImg: ImageView = view.findViewById(R.id.editFormTypeImg)
         val nameTV: EditText = view.findViewById(R.id.editFormName)
+        val handle: FormRCButton = view.findViewById(R.id.editFormHandle)
         val deleteBtn: FormRCButton = view.findViewById(R.id.editFormDelete)
     }
 
@@ -48,6 +54,12 @@ class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<Ed
                 if (activity.forms!![0].items.size <= position) return
             }
         })
+        holder.handle.setOnTouchListener { view, event ->
+            holder.handle.onTouch(view, event)
+            if (event.action == MotionEvent.ACTION_DOWN)
+                activity.editFormTH?.startDrag(holder)
+            false
+        }
         holder.deleteBtn.setOnTouchListener { view, event ->
             holder.deleteBtn.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP) {
@@ -61,6 +73,11 @@ class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<Ed
             }
             false
         }
+    }
+
+    fun onItemMove(from: Int, to: Int) {
+        Collections.swap(activity.forms!![0].items, from, to)
+        notifyItemMoved(from, to)
     }
 
 }
