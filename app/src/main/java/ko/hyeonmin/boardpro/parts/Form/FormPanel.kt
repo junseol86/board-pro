@@ -25,14 +25,13 @@ class FormPanel(val activity: ConsoleActivity) {
 
     var currentFormTitle: TextView = activity.findViewById(R.id.currentFormTitle)
 
-    var forms: ArrayList<Form>? = null
-
     var itemContents: ArrayList<ItemContent> = Gson().fromJson(activity.caches?.itemContentsJson, object : TypeToken<ArrayList<ItemContent>>() {}.type)
 
     private val labelRecyclerView: RecyclerView = activity.findViewById(R.id.formRecyclerView)
     private var formRCAdapter: FormRCAdapter? = null
     private val labelRCLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)
 
+    private val saveFormBtn: WhiteButton = activity.findViewById(R.id.saveForm)
     private val editFormBtn: WhiteButton = activity.findViewById(R.id.editForm)
 
     init {
@@ -43,11 +42,17 @@ class FormPanel(val activity: ConsoleActivity) {
 
         applyForm()
 
+        saveFormBtn.setOnTouchListener { view, event ->
+            saveFormBtn.onTouch(view, event)
+            if (event.action == MotionEvent.ACTION_UP)
+                activity.saveFormInNewName()
+            false
+        }
+
         editFormBtn.setOnTouchListener { view, event ->
             editFormBtn.onTouch(view, event)
-            if (event.action == MotionEvent.ACTION_UP) {
+            if (event.action == MotionEvent.ACTION_UP)
                 editFormStart()
-            }
             false
         }
 
@@ -55,7 +60,7 @@ class FormPanel(val activity: ConsoleActivity) {
     }
 
     fun applyForm() {
-        forms = Gson().fromJson(activity.caches?.formsJson, object : TypeToken<ArrayList<Form>>() {}.type)
+        activity.forms = Gson().fromJson(activity.caches?.formsJson, object : TypeToken<ArrayList<Form>>() {}.type)
 
         formRCAdapter = FormRCAdapter(activity)
         labelRecyclerView.adapter = formRCAdapter
@@ -63,15 +68,15 @@ class FormPanel(val activity: ConsoleActivity) {
     }
 
     fun setInterfaceText() {
-        currentFormTitle.text = forms!![0].title
+        currentFormTitle.text = activity.forms!![0].title
         setFileFolderNameResult()
     }
 
     fun setFileFolderNameResult() {
 //        항목 foNm, fiNm 값에 따라 파일명, 폴더명을 표시
-        forms!![0].items.map {
+        activity.forms!![0].items.map {
             if (it.folderName) {
-                activity.photoPanel?.setPhotoFolder(it.name.replace(" ", "_").replace("\n", "_"))
+                activity.photoPanel?.setPhotoFolder(it.content.replace(" ", "_").replace("\n", "_"))
             }
             if (it.fileName) {
             }
@@ -80,7 +85,7 @@ class FormPanel(val activity: ConsoleActivity) {
 
     // 현재 입력된 서식을 입시로 캐시화
     fun saveCurrentForm() {
-        activity.caches?.formsJson = Gson().toJson(forms)
+        activity.caches?.formsJson = Gson().toJson(activity.forms)
     }
 
     fun editFormStart() {

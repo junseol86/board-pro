@@ -7,10 +7,11 @@ import android.view.Window
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.parts.Form.FormPanel
 import ko.hyeonmin.boardpro.parts.Photo.PhotoPanel
+import ko.hyeonmin.boardpro.parts.activityExtension.FormSavingActivity
 import ko.hyeonmin.boardpro.utils.Caches
 import ko.hyeonmin.boardpro.utils.RequestCode
 
-class ConsoleActivity : Activity() {
+class ConsoleActivity : FormSavingActivity() {
 
     var caches: Caches? = null
 

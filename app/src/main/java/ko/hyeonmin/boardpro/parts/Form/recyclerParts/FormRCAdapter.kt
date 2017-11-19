@@ -33,12 +33,12 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val item = activity.formPanel!!.forms!![0].items[position]
+        val item = activity.forms!![0].items[position]
         holder?.nameEt?.setText(item.name)
         holder?.nameEt?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 if (item.type == "text")
-                    activity.formPanel!!.forms!![0].items[position].name = p0!!.toString()
+                    activity.forms!![0].items[position].name = p0!!.toString()
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -52,7 +52,8 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
         holder?.contentEt?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 if (item.type == "text")
-                    activity.formPanel!!.forms!![0].items[position].content = p0!!.toString()
+                    activity.forms!![0].items[position].content = p0!!.toString()
+                activity.formPanel?.setFileFolderNameResult()
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -83,7 +84,7 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
     }
 
     override fun getItemCount(): Int {
-        return activity.formPanel!!.forms!![0].items.size
+        return activity.forms!![0].items.size
     }
 
 }

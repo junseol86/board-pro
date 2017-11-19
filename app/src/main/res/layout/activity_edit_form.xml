@@ -68,7 +68,7 @@
                 app:layout_constraintLeft_toRightOf="@id/editFormSaveImg"
                 android:textColor="@color/text_color"
                 android:textSize="15sp"
-                android:text="다른 이름으로 저장"
+                android:text="다른 제목으로 저장"
                 />
         </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
     </android.support.constraint.ConstraintLayout>

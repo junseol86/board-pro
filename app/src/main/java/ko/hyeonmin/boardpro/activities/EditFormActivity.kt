@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import android.view.MotionEvent
 import android.view.Window
 import android.widget.TextView
@@ -16,14 +15,14 @@ import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.models.Form
 import ko.hyeonmin.boardpro.models.Item
 import ko.hyeonmin.boardpro.parts.Form.recyclerParts.EditFormRCAdapter
-import ko.hyeonmin.boardpro.parts.Form.recyclerParts.EditFormTHCallback
+import ko.hyeonmin.boardpro.parts.activityExtension.FormSavingActivity
 import ko.hyeonmin.boardpro.utils.Caches
 import ko.hyeonmin.boardpro.viewExtension.WhiteButton
 
 /**
  * Created by junse on 2017-11-16.
  */
-class EditFormActivity : Activity() {
+class EditFormActivity : FormSavingActivity() {
 
     var caches: Caches? = null
 
@@ -32,15 +31,12 @@ class EditFormActivity : Activity() {
 
     var editFormRV: RecyclerView? = null
     var editFormAD: EditFormRCAdapter? = null
-    var editFormTH: ItemTouchHelper? = null
     var editFormLM: RecyclerView.LayoutManager? = null
 
     var folderNameBtn: WhiteButton? = null
     var folderNameTV: TextView? = null
     var fileNameBtn: WhiteButton? = null
     var fileNameTV: TextView? = null
-
-    var forms: ArrayList<Form>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +63,13 @@ class EditFormActivity : Activity() {
             false
         }
         editFormSaveBtn = findViewById(R.id.editFormSaveBtn)
+        editFormSaveBtn?.setOnTouchListener { view, event ->
+            editFormSaveBtn?.onTouch(view, event)
+            if (event.action == MotionEvent.ACTION_UP) {
+                saveFormInNewName()
+            }
+            false
+        }
 
         editFormRV = findViewById(R.id.editFormRV)
         editFormRV?.setHasFixedSize(true)
@@ -101,8 +104,6 @@ class EditFormActivity : Activity() {
     fun applyForm() {
         editFormAD = EditFormRCAdapter(this)
         editFormRV?.adapter = editFormAD
-        editFormTH = ItemTouchHelper(EditFormTHCallback(editFormAD!!))
-        editFormTH?.attachToRecyclerView(editFormRV)
     }
 
     fun setFolderOrFileName(isFolder: Boolean) {

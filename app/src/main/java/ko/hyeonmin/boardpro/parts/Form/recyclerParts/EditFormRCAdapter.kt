@@ -1,6 +1,7 @@
 package ko.hyeonmin.boardpro.parts.Form.recyclerParts
 
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -19,10 +20,15 @@ import java.util.*
 /**
  * Created by junse on 2017-11-17.
  */
-class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<EditFormRCAdapter.ViewHolder>() {
+class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<EditFormRCAdapter.ViewHolder>(), OnItemMoveListener {
 
     var itemFrom = 0
     var itemTo = 0
+    var touchHalper: ItemTouchHelper = ItemTouchHelper(MyTouchHelperCallback(this))
+
+    init {
+        touchHalper.attachToRecyclerView(activity.editFormRV)
+    }
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val typeImg: ImageView = view.findViewById(R.id.editFormTypeImg)
@@ -57,7 +63,7 @@ class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<Ed
         holder.handle.setOnTouchListener { view, event ->
             holder.handle.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_DOWN)
-                activity.editFormTH?.startDrag(holder)
+                touchHalper.startDrag(holder)
             false
         }
         holder.deleteBtn.setOnTouchListener { view, event ->
@@ -75,9 +81,8 @@ class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<Ed
         }
     }
 
-    fun onItemMove(from: Int, to: Int) {
+    override fun onItemMove(from: Int, to: Int) {
         Collections.swap(activity.forms!![0].items, from, to)
         notifyItemMoved(from, to)
     }
-
 }

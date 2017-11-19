@@ -6,7 +6,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 /**
  * Created by junse on 2017-11-19.
  */
-class EditFormTHCallback (val adapter: EditFormRCAdapter): ItemTouchHelper.Callback() {
+class MyTouchHelperCallback(private val adapter: OnItemMoveListener): ItemTouchHelper.Callback() {
 
     override fun isLongPressDragEnabled(): Boolean = true
     override fun isItemViewSwipeEnabled(): Boolean = false
