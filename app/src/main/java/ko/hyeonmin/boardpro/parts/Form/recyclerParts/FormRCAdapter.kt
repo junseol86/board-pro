@@ -28,9 +28,8 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
         val selectBtnImg: ImageView = view.findViewById(R.id.form_rc_select_img)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-        return ViewHolder(LayoutInflater.from(parent!!.context).inflate(R.layout.console_form_rc_viewholder, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? =
+            ViewHolder(LayoutInflater.from(parent!!.context).inflate(R.layout.console_form_rc_viewholder, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val item = activity.forms!![0].items[position]
@@ -83,8 +82,6 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
         }
     }
 
-    override fun getItemCount(): Int {
-        return activity.forms!![0].items.size
-    }
+    override fun getItemCount(): Int = activity.forms!![0].items.size
 
 }

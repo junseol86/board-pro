@@ -13,9 +13,7 @@ import ko.hyeonmin.boardpro.utils.RequestCode
 
 class ConsoleActivity : FormSavingActivity() {
 
-    var caches: Caches? = null
-
-    var photoPanel: PhotoPanel? = null
+   var photoPanel: PhotoPanel? = null
     var formPanel: FormPanel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,5 +28,9 @@ class ConsoleActivity : FormSavingActivity() {
         when (requestCode) {
             RequestCode.EDIT_FORM -> formPanel?.editFormResult()
         }
+    }
+
+    override fun applyNewForm() {
+        formPanel?.applyForm()
     }
 }

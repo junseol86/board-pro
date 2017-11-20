@@ -24,8 +24,6 @@ import ko.hyeonmin.boardpro.viewExtension.WhiteButton
  */
 class EditFormActivity : FormSavingActivity() {
 
-    var caches: Caches? = null
-
     var editFormAddBtn: WhiteButton? = null
     var editFormSaveBtn: WhiteButton? = null
 
@@ -66,7 +64,7 @@ class EditFormActivity : FormSavingActivity() {
         editFormSaveBtn?.setOnTouchListener { view, event ->
             editFormSaveBtn?.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP) {
-                saveFormInNewName()
+                saveFormInNewTitle()
             }
             false
         }
@@ -151,11 +149,5 @@ class EditFormActivity : FormSavingActivity() {
                 fileNameTV?.text = "파일명: " + it.name
             }
         }
-    }
-
-    override fun onPause() {
-        caches?.formsJson = Gson().toJson(forms)
-        super.onPause()
-        overridePendingTransition(0, 0)
     }
 }

@@ -1,0 +1,76 @@
+package ko.hyeonmin.boardpro.parts.Form.recyclerParts
+
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import com.google.gson.Gson
+import ko.hyeonmin.boardpro.R
+import ko.hyeonmin.boardpro.activities.ConsoleActivity
+import ko.hyeonmin.boardpro.viewExtension.FormRCButton
+import java.util.*
+
+/**
+ * Created by junse on 2017-11-20.
+ */
+class SelectFormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<SelectFormRCAdapter.ViewHolder>(), OnItemMoveListener {
+
+    var touchHalper: ItemTouchHelper = ItemTouchHelper(MyTouchHelperCallback(this))
+    init {
+        touchHalper.attachToRecyclerView(activity.formPanel!!.selectFormRV)
+    }
+
+    inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val handle: FormRCButton = view.findViewById(R.id.selectFormHandle)
+        val deleteBtn: FormRCButton = view.findViewById(R.id.selectFormDelete)
+        val titleTV: TextView = view.findViewById(R.id.selectFormTitle)
+        val selector: FormRCButton = view.findViewById(R.id.selectFormSelector)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+        holder?.handle?.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN)
+                touchHalper.startDrag(holder)
+            false
+        }
+        holder?.deleteBtn?.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                if (activity.forms!!.size == 1) {
+                    Toast.makeText(activity, "서식이 하나 이상 있어야 합니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    activity.forms!!.removeAt(position)
+                    notifyDataSetChanged()
+                }
+            }
+            false
+        }
+        holder?.titleTV?.text = activity.forms!![position].title
+        holder?.selector?.setOnTouchListener { view, event ->
+            holder?.selector?.onTouch(view, event)
+            if (event.action == MotionEvent.ACTION_UP) {
+                activity.formPanel?.adBuilder!!.dismiss()
+                Collections.swap(activity.forms!!, 0, position)
+                activity.saveForms()
+                activity.formPanel?.applyForm()
+            }
+            false
+        }
+    }
+
+    override fun getItemCount(): Int = activity.forms!!.size
+
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? =
+            ViewHolder(LayoutInflater.from(parent!!.context).inflate(R.layout.select_form_rc_viewholder, parent, false))
+
+
+    override fun onItemMove(from: Int, to: Int) {
+        Collections.swap(activity.forms!!, from, to)
+        notifyItemMoved(from, to)
+        activity.saveForms()
+        activity.formPanel?.applyForm()
+    }
+}

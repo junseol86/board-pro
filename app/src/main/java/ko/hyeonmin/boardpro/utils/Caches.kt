@@ -43,7 +43,7 @@ class Caches(val activity: Activity) {
             itemList.add(Item("내용", "text", "", "내용 입력", false, false))
             itemList.add(Item("날짜", "date", "yyyy-MM-dd", "", false, false))
 
-            var form1 = Form("기본 보드", "2017-11-11", itemList)
+            var form1 = Form("기본 보드", itemList)
             var formList = ArrayList<Form>()
             formList.add(form1)
             formsJson = Gson().toJson(formList)

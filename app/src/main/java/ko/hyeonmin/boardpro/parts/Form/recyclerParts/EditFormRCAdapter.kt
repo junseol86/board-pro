@@ -22,10 +22,7 @@ import java.util.*
  */
 class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<EditFormRCAdapter.ViewHolder>(), OnItemMoveListener {
 
-    var itemFrom = 0
-    var itemTo = 0
     var touchHalper: ItemTouchHelper = ItemTouchHelper(MyTouchHelperCallback(this))
-
     init {
         touchHalper.attachToRecyclerView(activity.editFormRV)
     }
@@ -37,13 +34,10 @@ class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<Ed
         val deleteBtn: FormRCButton = view.findViewById(R.id.editFormDelete)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-        return ViewHolder(LayoutInflater.from(parent!!.context).inflate(R.layout.edit_form_rc_viewholder, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? =
+            ViewHolder(LayoutInflater.from(parent!!.context).inflate(R.layout.edit_form_rc_viewholder, parent, false))
 
-    override fun getItemCount(): Int {
-        return activity.forms!![0].items.size
-    }
+    override fun getItemCount(): Int = activity.forms!![0].items.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.typeImg.setImageResource(if (activity.forms!![0].items[position].type == "text") R.drawable.cs_lb_rc_text else R.drawable.cs_lb_rc_date)

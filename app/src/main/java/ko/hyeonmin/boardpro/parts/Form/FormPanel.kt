@@ -13,6 +13,7 @@ import ko.hyeonmin.boardpro.activities.ConsoleActivity
 import ko.hyeonmin.boardpro.activities.EditFormActivity
 import ko.hyeonmin.boardpro.models.Form
 import ko.hyeonmin.boardpro.models.ItemContent
+import ko.hyeonmin.boardpro.parts.Form.recyclerParts.SelectFormRCAdapter
 import ko.hyeonmin.boardpro.parts.Photo.PhotoPanel
 import ko.hyeonmin.boardpro.parts.recyclerParts.FormRCAdapter
 import ko.hyeonmin.boardpro.utils.RequestCode
@@ -31,8 +32,12 @@ class FormPanel(val activity: ConsoleActivity) {
     private var formRCAdapter: FormRCAdapter? = null
     private val labelRCLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)
 
+    private val selectFormBtn: WhiteButton = activity.findViewById(R.id.selectForm)
     private val saveFormBtn: WhiteButton = activity.findViewById(R.id.saveForm)
     private val editFormBtn: WhiteButton = activity.findViewById(R.id.editForm)
+
+    var selectFormRV: RecyclerView? = null
+    var adBuilder: AlertDialog? = null
 
     init {
         activity.photoPanel = PhotoPanel(activity)
@@ -42,10 +47,17 @@ class FormPanel(val activity: ConsoleActivity) {
 
         applyForm()
 
+        selectFormBtn.setOnTouchListener { view, event ->
+            selectFormBtn.onTouch(view, event)
+            if (event.action == MotionEvent.ACTION_UP)
+                selectFormStart()
+            false
+        }
+
         saveFormBtn.setOnTouchListener { view, event ->
             saveFormBtn.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP)
-                activity.saveFormInNewName()
+                activity.saveFormInNewTitle()
             false
         }
 
@@ -83,13 +95,21 @@ class FormPanel(val activity: ConsoleActivity) {
         }
     }
 
-    // 현재 입력된 서식을 입시로 캐시화
-    fun saveCurrentForm() {
-        activity.caches?.formsJson = Gson().toJson(activity.forms)
+    fun selectFormStart() {
+        selectFormRV = RecyclerView(activity)
+        var selectFormLM = LinearLayoutManager(activity)
+        selectFormRV?.layoutManager = selectFormLM
+
+        var selectFormAD = SelectFormRCAdapter(activity)
+        selectFormRV?.adapter = selectFormAD
+
+        adBuilder = AlertDialog.Builder(activity).create()
+        adBuilder?.setView(selectFormRV)
+        adBuilder?.show()
     }
 
     fun editFormStart() {
-        saveCurrentForm()
+        activity.saveForms()
         var intent = Intent(activity, EditFormActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
         activity.startActivityForResult(intent, RequestCode.EDIT_FORM)
