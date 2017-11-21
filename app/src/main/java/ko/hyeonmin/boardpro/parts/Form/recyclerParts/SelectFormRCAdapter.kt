@@ -1,14 +1,16 @@
 package ko.hyeonmin.boardpro.parts.Form.recyclerParts
 
+import android.graphics.Color
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import com.google.gson.Gson
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.activities.ConsoleActivity
 import ko.hyeonmin.boardpro.viewExtension.FormRCButton
@@ -44,6 +46,9 @@ class SelectFormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<S
                 } else {
                     activity.forms!!.removeAt(position)
                     notifyDataSetChanged()
+                    activity.saveForms()
+                    if (position == 0)
+                        activity.applyNewForm()
                 }
             }
             false
@@ -68,8 +73,12 @@ class SelectFormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<S
 
 
     override fun onItemMove(from: Int, to: Int) {
-        Collections.swap(activity.forms!!, from, to)
         notifyItemMoved(from, to)
+    }
+
+    override fun onItemDropped(from: Int, to: Int) {
+        activity.forms!!.add(to, activity.forms!!.removeAt(from))
+        notifyDataSetChanged()
         activity.saveForms()
         activity.formPanel?.applyForm()
     }

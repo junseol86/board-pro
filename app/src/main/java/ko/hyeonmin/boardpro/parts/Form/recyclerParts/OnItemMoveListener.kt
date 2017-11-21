@@ -5,4 +5,5 @@ package ko.hyeonmin.boardpro.parts.Form.recyclerParts
  */
 interface OnItemMoveListener {
     fun onItemMove(from: Int, to: Int)
+    fun onItemDropped(from: Int, to: Int)
 }

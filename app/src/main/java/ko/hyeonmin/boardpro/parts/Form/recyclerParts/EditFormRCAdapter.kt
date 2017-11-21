@@ -56,8 +56,9 @@ class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<Ed
         })
         holder.handle.setOnTouchListener { view, event ->
             holder.handle.onTouch(view, event)
-            if (event.action == MotionEvent.ACTION_DOWN)
+            if (event.action == MotionEvent.ACTION_DOWN) {
                 touchHalper.startDrag(holder)
+            }
             false
         }
         holder.deleteBtn.setOnTouchListener { view, event ->
@@ -76,7 +77,14 @@ class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<Ed
     }
 
     override fun onItemMove(from: Int, to: Int) {
-        Collections.swap(activity.forms!![0].items, from, to)
         notifyItemMoved(from, to)
+    }
+
+    override fun onItemDropped(from: Int, to: Int) {
+        activity.forms!![0].items.add(to, activity.forms!![0].items.removeAt(from))
+        (0..activity.forms!![0].items.size).map {
+            notifyItemChanged(it)
+        }
+        activity.saveForms()
     }
 }

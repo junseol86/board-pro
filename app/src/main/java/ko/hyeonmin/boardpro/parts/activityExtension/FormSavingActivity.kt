@@ -21,7 +21,8 @@ open class FormSavingActivity: Activity() {
         val formTitleEt = EditText(this)
         val adBuilder = AlertDialog.Builder(this)
         adBuilder
-                .setTitle("서식의 제목을 입력하세요.")
+                .setTitle("다른 제목으로 저장합니다.")
+                .setMessage("제목을 입력하세요.")
                 .setView(formTitleEt)
                 .setPositiveButton("확인", { _, _ ->
                 })
