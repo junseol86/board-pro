@@ -52,10 +52,11 @@ class EditFormActivity : FormSavingActivity() {
                         .setTitle("추가할 항목 형식:")
                         .setItems(arrayOf("텍스트", "날짜"), { _, position ->
                             val item =
-                                if (position == 0) Item("항목명", "text", "", "", false, false)
+                                if (position == 0) Item("", "text", "", "", false, false)
                                 else Item("항목명", "date", "yyyy-MM-dd", "", false, false)
                             forms!![0].items?.add(item)
                             editFormAD?.notifyItemInserted(forms!![0].items!!.size - 1)
+                            editFormAD?.setNameDialog(forms!![0].items.size - 1)
                         }).show()
             }
             false

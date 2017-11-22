@@ -8,7 +8,7 @@
     <string-array name="time_format">
         <item></item>
         <item>HH:mm:ss</item>
-        <item>hh:mm:ss AA</item>
+        <item>hh:mm:ss</item>
         <item>HH-mm-ss</item>
     </string-array>
 </resources>

@@ -15,6 +15,7 @@ class PhotoPanel(val activity: ConsoleActivity) {
     }
 
     fun setPhotoFolder(folderName: String) {
-        photoFolderText.text = "/BoardPro/" + folderName
+        val folderName = "/BoardPro/" + if (folderName == "") "이름없는폴더" else folderName
+        photoFolderText.text = folderName
     }
 }
