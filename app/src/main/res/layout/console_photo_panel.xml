@@ -29,6 +29,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:background="@color/photo_bg"
             >
             <ko.hyeonmin.boardpro.viewExtension.BlackButton
                 android:id="@+id/photoFolder"
@@ -37,7 +38,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/photoPanelTopDivider"
+                app:layout_constraintRight_toLeftOf="@+id/photoSelect"
+                android:layout_marginRight="1dp"
                 >
                 <ImageView
                     android:id="@+id/photoFolderImg"
@@ -64,24 +66,13 @@
                     app:layout_constraintRight_toRightOf="parent"
                     />
             </ko.hyeonmin.boardpro.viewExtension.BlackButton>
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/photoPanelTopDivider"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/photoFolder"
-                app:layout_constraintRight_toLeftOf="@+id/photoSelect"
-                android:background="@color/photo_bg"
-                >
-            </android.support.constraint.ConstraintLayout>
             <ko.hyeonmin.boardpro.viewExtension.BlackButton
                 android:id="@+id/photoSelect"
                 android:layout_width="80dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/photoPanelTopDivider"
+                app:layout_constraintLeft_toRightOf="@id/photoFolder"
                 app:layout_constraintRight_toRightOf="parent"
                 >
                 <TextView
@@ -111,10 +102,10 @@
         android:id="@+id/photoPanelBottom"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:background="@color/black_button_off"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/photo_bg"
         >
         <ko.hyeonmin.boardpro.viewExtension.BlackButton
             android:id="@+id/takePhoto"
@@ -123,7 +114,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/photoPanelBottomDivider1"
+            app:layout_constraintRight_toLeftOf="@+id/gallery"
+            android:layout_marginRight="1dp"
             >
             <ImageView
                 android:id="@+id/takePhotoIcon"
@@ -148,25 +140,15 @@
                 app:layout_constraintRight_toRightOf="parent"
                 />
         </ko.hyeonmin.boardpro.viewExtension.BlackButton>
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/photoPanelBottomDivider1"
-            android:layout_width="1dp"
+        <ko.hyeonmin.boardpro.viewExtension.BlackButton
+            android:id="@+id/gallery"
+            android:layout_width="88dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/takePhoto"
-            app:layout_constraintRight_toLeftOf="@+id/gallery"
-            android:background="@color/photo_bg"
-            >
-        </android.support.constraint.ConstraintLayout>
-        <ko.hyeonmin.boardpro.viewExtension.BlackButton
-            android:id="@+id/gallery"
-            android:layout_width="66dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/photoPanelBottomDivider1"
-            app:layout_constraintRight_toLeftOf="@+id/photoPanelBottomDivider2"
+            app:layout_constraintRight_toLeftOf="@+id/settings"
+            android:layout_marginRight="1dp"
             >
             <ImageView
                 android:layout_width="44dp"
@@ -178,25 +160,14 @@
                 android:src="@drawable/cs_pt_gallery"
                 />
         </ko.hyeonmin.boardpro.viewExtension.BlackButton>
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/photoPanelBottomDivider2"
-            android:layout_width="1dp"
+        <ko.hyeonmin.boardpro.viewExtension.BlackButton
+            android:id="@+id/settings"
+            android:layout_width="56dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/gallery"
-            app:layout_constraintRight_toLeftOf="@+id/settings"
-            android:background="@color/photo_bg"
-            >
-        </android.support.constraint.ConstraintLayout>
-        <ko.hyeonmin.boardpro.viewExtension.BlackButton
-            android:id="@+id/settings"
-            android:layout_width="44dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/photoPanelBottomDivider2"
-            app:layout_constraintRight_toLeftOf="@+id/memo"
+            app:layout_constraintRight_toRightOf="parent"
             >
             <ImageView
                 android:layout_width="0dp"
@@ -206,44 +177,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:src="@drawable/cs_pt_settings"                
-                />
-        </ko.hyeonmin.boardpro.viewExtension.BlackButton>
-        <ko.hyeonmin.boardpro.viewExtension.BlackButton
-            android:id="@+id/memo"
-            android:layout_width="44dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/settings"
-            app:layout_constraintRight_toLeftOf="@+id/record"
-            >
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:src="@drawable/cs_pt_memo"
-                />
-        </ko.hyeonmin.boardpro.viewExtension.BlackButton>
-        <ko.hyeonmin.boardpro.viewExtension.BlackButton
-            android:id="@+id/record"
-            android:layout_width="44dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/memo"
-            app:layout_constraintRight_toRightOf="parent"
-            >
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:src="@drawable/cs_pt_record"
                 />
         </ko.hyeonmin.boardpro.viewExtension.BlackButton>
     </android.support.constraint.ConstraintLayout>
