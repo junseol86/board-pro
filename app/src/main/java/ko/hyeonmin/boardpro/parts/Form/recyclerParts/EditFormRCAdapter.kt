@@ -59,7 +59,7 @@ class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<Ed
             holder.deleteBtn.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP) {
                 if (activity.forms!![0].items.size == 1) {
-                    Toast.makeText(activity, "항목이 하나 이상 있어야 합니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, activity.resources.getString(R.string.mustBeOneOrMoreItem), Toast.LENGTH_SHORT).show()
                 } else {
                     activity.forms!![0].items.removeAt(position)
                     activity.secureFolderFileName()
@@ -85,10 +85,10 @@ class EditFormRCAdapter(val activity: EditFormActivity): RecyclerView.Adapter<Ed
     fun setNameDialog(position: Int) {
         var nameEdit = EditText(activity)
         var dialogBuilder = AlertDialog.Builder(activity)
-                .setTitle("항목명")
-                .setMessage("공백으로 남겨 항목명 없는 한 줄을 만들 수도 있습니다.")
+                .setTitle(activity.resources.getString(R.string.item))
+                .setMessage(activity.resources.getString(R.string.emptyToMakeFullLine))
                 .setCancelable(false)
-                .setPositiveButton("확인", { _, _ ->
+                .setPositiveButton(activity.resources.getString(R.string.ok), { _, _ ->
                     activity.forms!![0].items[position].name = nameEdit.text.toString()
                     notifyDataSetChanged()
                 })

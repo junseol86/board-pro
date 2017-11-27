@@ -32,7 +32,7 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
     var timeFormTV: TextView = popupSelDateView.findViewById(R.id.popupSelDateFormTimeTV)
     var builder: AlertDialog.Builder = AlertDialog.Builder(activity)
             .setView(popupSelDateView)
-            .setPositiveButton("확인", { _, _ ->
+            .setPositiveButton(activity.resources.getString(R.string.ok), { _, _ ->
                 notifyItemChanged(selectedPosition)
             })
     var selectDialog: AlertDialog = builder.create()
@@ -107,7 +107,6 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
                             hasSaved = true
                             var contents = Array(it.contentList.size, {i -> it.contentList[i]})
                             AlertDialog.Builder(activity)
-                                    .setTitle(item.name + " 선택")
                                     .setItems(contents, { _, contentPosition ->
                                         item.content = contents[contentPosition]
                                         notifyItemChanged(position)
@@ -115,7 +114,7 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
                                     .show()
                         }
                         if (!hasSaved)
-                            Toast.makeText(activity, "이 항목에 저장된 내용이 없습니다.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, activity.resources.getString(R.string.noContentSavedForThisItem), Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     selectedPosition = position
@@ -150,10 +149,10 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
 
     fun setTimeFormatDialog() {
         AlertDialog.Builder(activity)
-                .setTitle("시간 형식")
+                .setTitle(activity.resources.getString(R.string.timeFormat))
                 .setItems(
                         Array(activity.resources.getStringArray(R.array.time_format).size, {i ->
-                            if (i == 0) "(없음)" else
+                            if (i == 0) activity.resources.getString(R.string.none) else
                             SimpleDateFormat(activity.resources.getStringArray(R.array.time_format)[i]).format(Date(if (selectedTime == 0L) calendarView.date else selectedTime))}),
                         { _, i ->
                             val beforeSelected = activity.forms!![0].items[selectedPosition].dateForm.split(" ")

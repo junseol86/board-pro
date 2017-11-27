@@ -119,8 +119,4 @@ class FormPanel(val activity: ConsoleActivity) {
         applyForm()
     }
 
-    fun saveToLastForm() {
-
-    }
-
 }

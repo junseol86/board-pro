@@ -49,11 +49,11 @@ class EditFormActivity : FormSavingActivity() {
             editFormAddBtn?.onTouch(view, motionEvent)
             if (motionEvent.action == MotionEvent.ACTION_UP) {
                 AlertDialog.Builder(this)
-                        .setTitle("추가할 항목 형식:")
-                        .setItems(arrayOf("텍스트", "날짜"), { _, position ->
+                        .setTitle(resources.getString(R.string.typeOfItemToAdd))
+                        .setItems(arrayOf(resources.getString(R.string.text), resources.getString(R.string.dateTime)), { _, position ->
                             val item =
                                 if (position == 0) Item("", "text", "", "", false, false)
-                                else Item("항목명", "date", "yyyy-MM-dd", "", false, false)
+                                else Item(resources.getString(R.string.item), "date", "yyyy-MM-dd", "", false, false)
                             forms!![0].items?.add(item)
                             editFormAD?.notifyItemInserted(forms!![0].items!!.size - 1)
                             editFormAD?.setNameDialog(forms!![0].items.size - 1)
@@ -111,7 +111,7 @@ class EditFormActivity : FormSavingActivity() {
         })
 
         AlertDialog.Builder(this)
-                .setTitle("${if (isFolder) "폴더" else "파일"}명으로 사용할 항목:")
+                .setTitle("${if (isFolder) resources.getString(R.string.folder) else resources.getString(R.string.file)}${resources.getString(R.string.itemToBeUsedFor)}")
                 .setItems(
                         itemNames, { _, position ->
                     forms!![0].items.map {
@@ -144,10 +144,10 @@ class EditFormActivity : FormSavingActivity() {
     fun setFolderFileNameResult() {
         forms!![0].items?.map {
             if (it.folderName) {
-                folderNameTV?.text = "폴더명: " + it.name
+                folderNameTV?.text = resources.getString(R.string.folderName) + it.name
             }
             if (it.fileName) {
-                fileNameTV?.text = "파일명: " + it.name
+                fileNameTV?.text = resources.getString(R.string.fileName) + it.name
             }
         }
     }

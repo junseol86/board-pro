@@ -40,7 +40,7 @@
                 app:layout_constraintLeft_toRightOf="@id/editFormAddImg"
                 android:textColor="@color/text_color"
                 android:textSize="15sp"
-                android:text="항목 추가"
+                android:text="@string/addItem"
                 />
         </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
         <ko.hyeonmin.boardpro.viewExtension.WhiteButton
@@ -68,7 +68,7 @@
                 app:layout_constraintLeft_toRightOf="@id/editFormSaveImg"
                 android:textColor="@color/text_color"
                 android:textSize="15sp"
-                android:text="다른 제목으로 저장"
+                android:text="@string/saveAsDifferentNameBtn"
                 />
         </ko.hyeonmin.boardpro.viewExtension.WhiteButton>
     </android.support.constraint.ConstraintLayout>
@@ -114,7 +114,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:textColor="@color/text_color"
                 android:textSize="15sp"
-                android:text="폴더명:"
+                android:text="@string/folderName"
                 />
             <ImageView
                 android:layout_width="22dp"
@@ -145,7 +145,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:textColor="@color/text_color"
                 android:textSize="15sp"
-                android:text="파일명:"
+                android:text="@string/fileName"
                 />
             <ImageView
                 android:layout_width="22dp"

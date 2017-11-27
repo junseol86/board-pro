@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.widget.EditText
 import android.widget.Toast
 import com.google.gson.Gson
+import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.models.Form
 import ko.hyeonmin.boardpro.utils.Caches
 
@@ -21,18 +22,18 @@ open class FormSavingActivity: Activity() {
         val formTitleEt = EditText(this)
         val adBuilder = AlertDialog.Builder(this)
         adBuilder
-                .setTitle("다른 제목으로 저장합니다.")
-                .setMessage("제목을 입력하세요.")
+                .setTitle(resources.getString(R.string.saveAsDifferentName))
+                .setMessage(resources.getString(R.string.inputFormName))
                 .setView(formTitleEt)
-                .setPositiveButton("확인", { _, _ ->
+                .setPositiveButton(resources.getString(R.string.ok), { _, _ ->
                 })
-                .setNegativeButton("취소", {_, _ ->})
+                .setNegativeButton(resources.getString(R.string.cancel), {_, _ ->})
         val ad = adBuilder.create()
         ad.show()
         ad.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
             val formTitle = formTitleEt.text.toString()
             if (formTitle.trim() == "") {
-                Toast.makeText(this, "제목을 입력하세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, resources.getString(R.string.inputFormName), Toast.LENGTH_SHORT).show()
             } else {
                 var hasSameTitle = false
                 forms?.map {
@@ -40,7 +41,7 @@ open class FormSavingActivity: Activity() {
                         hasSameTitle = true
                 }
                 if (hasSameTitle)
-                    Toast.makeText(this, "같은 제목의 보드가 있습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, resources.getString(R.string.existsSameName), Toast.LENGTH_SHORT).show()
                 else {
                     val gson = Gson()
                     val newFormJson = gson.toJson(forms!![0])

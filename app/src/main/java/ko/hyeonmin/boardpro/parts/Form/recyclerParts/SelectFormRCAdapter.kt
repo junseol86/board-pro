@@ -39,7 +39,7 @@ class SelectFormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<S
         holder?.deleteBtn?.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 if (activity.forms!!.size == 1) {
-                    Toast.makeText(activity, "서식이 하나 이상 있어야 합니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, activity.resources.getString(R.string.mustBeOneOrMoreForm), Toast.LENGTH_SHORT).show()
                 } else {
                     activity.forms!!.removeAt(position)
                     notifyDataSetChanged()

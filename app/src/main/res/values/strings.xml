@@ -12,4 +12,51 @@
         <item>HH.mm.ss</item>
         <item>a hh.mm.ss</item>
     </string-array>
+
+    <string name="typeOfItemToAdd">Type of the item to add:</string>
+    <string name="text">Text</string>
+    <string name="dateTime">Date·Time</string>
+    <string name="item">item</string>
+
+    <string name="folder">folder</string>
+    <string name="file">file</string>
+    <string name="itemToBeUsedFor">Item to be used for name of the</string>
+
+    <string name="folderName">Folder name: </string>
+    <string name="fileName">File name: </string>
+
+    <string name="saveAsDifferentName">Save the form as different name</string>
+    <string name="inputFormName">Input form name</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="existsSameName">There exists a form in same name</string>
+
+    <string name="mustBeOneOrMoreItem">There must be one or more item</string>
+    <string name="emptyToMakeFullLine">You can leave this empty to make single columned row</string>
+
+    <string name="noContentSavedForThisItem">No content cached for this item</string>
+    <string name="timeFormat">Time format</string>
+    <string name="none">(None)</string>
+    <string name="mustBeOneOrMoreForm">There must be one or more form</string>
+    <string name="folderWithoutName">FolderWithoutName</string>
+
+    <string name="item1">Title</string>
+    <string name="item2">Type</string>
+    <string name="item3">Location1</string>
+    <string name="item4">Location2</string>
+    <string name="item5">Description</string>
+    <string name="item6">Date</string>
+
+    <string name="content1">Input title</string>
+    <string name="content2">Type A</string>
+    <string name="content3">Input location1</string>
+    <string name="content4">Input location2</string>
+    <string name="content5">Input description</string>
+    <string name="content2_2">Type B</string>
+
+    <string name="addItem">Add item</string>
+    <string name="saveAsDifferentNameBtn">Save as different name</string>
+
+    <string name="selectPhoto">Select photo</string>
+    <string name="takePhoto">Take photo</string>
 </resources>

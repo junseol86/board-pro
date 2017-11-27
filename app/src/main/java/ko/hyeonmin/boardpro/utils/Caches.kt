@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import com.google.gson.Gson
+import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.models.Form
 import ko.hyeonmin.boardpro.models.Item
 import ko.hyeonmin.boardpro.models.ItemContent
@@ -36,12 +37,12 @@ class Caches(val activity: Activity) {
         if (formsJson == "") {
 
             var itemList = ArrayList<Item>()
-            itemList.add(Item("공사명", "text", "", "보드프로사옥\n기초공사", true, false))
-            itemList.add(Item("공종", "text", "", "토공", false, true))
-            itemList.add(Item("위치", "text", "", "위치 입력", false, false))
-            itemList.add(Item("상세위치", "text", "", "상세위치 입력", false, false))
-            itemList.add(Item("내용", "text", "", "내용 입력", false, false))
-            itemList.add(Item("날짜", "date", "yyyy-MM-dd", "", false, false))
+            itemList.add(Item(activity.resources.getString(R.string.item1), "text", "", activity.resources.getString(R.string.content1), true, false))
+            itemList.add(Item(activity.resources.getString(R.string.item2), "text", "", activity.resources.getString(R.string.content2), false, true))
+            itemList.add(Item(activity.resources.getString(R.string.item3), "text", "", activity.resources.getString(R.string.content3), false, false))
+            itemList.add(Item(activity.resources.getString(R.string.item4), "text", "", activity.resources.getString(R.string.content4), false, false))
+            itemList.add(Item(activity.resources.getString(R.string.item5), "text", "", activity.resources.getString(R.string.content5), false, false))
+            itemList.add(Item(activity.resources.getString(R.string.item6), "date", "yyyy-MM-dd", "", false, false))
 
             var form1 = Form("기본 보드", itemList)
             var formList = ArrayList<Form>()
@@ -52,10 +53,10 @@ class Caches(val activity: Activity) {
 //        itemContentsJson = ""
         if (itemContentsJson == "") {
             var contentList = ArrayList<String>()
-            contentList.add("토공")
-            contentList.add("토공사")
+            contentList.add(activity.resources.getString(R.string.content2))
+            contentList.add(activity.resources.getString(R.string.content2_2))
 
-            var itemContent = ItemContent("공종", contentList)
+            var itemContent = ItemContent(activity.resources.getString(R.string.item2), contentList)
             var itemContentList = ArrayList<ItemContent>()
             itemContentList.add(itemContent)
             itemContentsJson = Gson().toJson(itemContentList)
