@@ -101,21 +101,22 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
             holder?.selectBtn?.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP) {
                 if (item.type == "text") {
+                    var hasSaved = false
                     activity.formPanel?.itemContents?.map {
-                        var hasSaved = false
                         if (it.itemName == item.name) {
                             hasSaved = true
-                            var contents = Array(it.contentList.size, {i -> it.contentList[i]})
-                            AlertDialog.Builder(activity)
-                                    .setItems(contents, { _, contentPosition ->
-                                        item.content = contents[contentPosition]
-                                        notifyItemChanged(position)
-                                    })
-                                    .show()
+                            activity.formPanel?.selectContentStart(position, it)
+//                            var contents = Array(it.contentList.size, {i -> it.contentList[i]})
+//                            AlertDialog.Builder(activity)
+//                                    .setItems(contents, { _, contentPosition ->
+//                                        item.content = contents[contentPosition]
+//                                        notifyItemChanged(position)
+//                                    })
+//                                    .show()
                         }
-                        if (!hasSaved)
-                            Toast.makeText(activity, activity.resources.getString(R.string.noContentSavedForThisItem), Toast.LENGTH_SHORT).show()
                     }
+                    if (!hasSaved)
+                        Toast.makeText(activity, activity.resources.getString(R.string.noContentSavedForThisItem), Toast.LENGTH_SHORT).show()
                 } else {
                     selectedPosition = position
                     selectDialog.show()

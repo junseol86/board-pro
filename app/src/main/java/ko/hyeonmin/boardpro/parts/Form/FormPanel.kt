@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
+import android.widget.EditText
 import android.widget.TextView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -13,6 +14,7 @@ import ko.hyeonmin.boardpro.activities.ConsoleActivity
 import ko.hyeonmin.boardpro.activities.EditFormActivity
 import ko.hyeonmin.boardpro.models.Form
 import ko.hyeonmin.boardpro.models.ItemContent
+import ko.hyeonmin.boardpro.parts.Form.recyclerParts.SelectContentRCAdapter
 import ko.hyeonmin.boardpro.parts.Form.recyclerParts.SelectFormRCAdapter
 import ko.hyeonmin.boardpro.parts.Photo.PhotoPanel
 import ko.hyeonmin.boardpro.parts.recyclerParts.FormRCAdapter
@@ -29,7 +31,7 @@ class FormPanel(val activity: ConsoleActivity) {
     var itemContents: ArrayList<ItemContent> = Gson().fromJson(activity.caches?.itemContentsJson, object : TypeToken<ArrayList<ItemContent>>() {}.type)
 
     private val labelRecyclerView: RecyclerView = activity.findViewById(R.id.formRecyclerView)
-    private var formRCAdapter: FormRCAdapter? = null
+    var formRCAdapter: FormRCAdapter? = null
     private val labelRCLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)
 
     private val selectFormBtn: WhiteButton = activity.findViewById(R.id.selectForm)
@@ -37,7 +39,10 @@ class FormPanel(val activity: ConsoleActivity) {
     private val editFormBtn: WhiteButton = activity.findViewById(R.id.editForm)
 
     var selectFormRV: RecyclerView? = null
-    var adBuilder: AlertDialog? = null
+    var adSelectFormBuilder: AlertDialog? = null
+
+    var selectContentRV: RecyclerView? = null
+    var adSelectContentBuilder: AlertDialog? = null
 
     init {
         activity.photoPanel = PhotoPanel(activity)
@@ -103,9 +108,22 @@ class FormPanel(val activity: ConsoleActivity) {
         var selectFormAD = SelectFormRCAdapter(activity)
         selectFormRV?.adapter = selectFormAD
 
-        adBuilder = AlertDialog.Builder(activity).create()
-        adBuilder?.setView(selectFormRV)
-        adBuilder?.show()
+        adSelectFormBuilder = AlertDialog.Builder(activity).create()
+        adSelectFormBuilder?.setView(selectFormRV)
+        adSelectFormBuilder?.show()
+    }
+
+    fun selectContentStart(givenPosition: Int, itemContent: ItemContent) {
+        selectContentRV = RecyclerView(activity)
+        var selectContentLM = LinearLayoutManager(activity)
+        selectContentRV?.layoutManager = selectContentLM
+
+        var selectContentAD = SelectContentRCAdapter(activity, givenPosition, itemContent)
+        selectContentRV?.adapter = selectContentAD
+
+        adSelectContentBuilder = AlertDialog.Builder(activity).create()
+        adSelectContentBuilder?.setView(selectContentRV)
+        adSelectContentBuilder?.show()
     }
 
     fun editFormStart() {

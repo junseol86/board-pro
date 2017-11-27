@@ -54,7 +54,7 @@ class SelectFormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<S
         holder?.selector?.setOnTouchListener { view, event ->
             holder?.selector?.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP) {
-                activity.formPanel?.adBuilder!!.dismiss()
+                activity.formPanel?.adSelectFormBuilder!!.dismiss()
                 Collections.swap(activity.forms!!, 0, position)
                 activity.saveForms()
                 activity.formPanel?.applyForm()
