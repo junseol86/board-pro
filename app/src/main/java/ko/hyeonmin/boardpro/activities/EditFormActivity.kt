@@ -1,11 +1,9 @@
 package ko.hyeonmin.boardpro.activities
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.MotionEvent
 import android.view.Window
 import android.widget.TextView
@@ -105,24 +103,24 @@ class EditFormActivity : FormSavingActivity() {
         editFormRV?.adapter = editFormAD
     }
 
-    fun setFolderOrFileName(isFolder: Boolean) {
-        var itemNames = Array<String>(forms!![0].items.size, { i ->
-            forms!![0].items[i].name
-        })
+       fun setFolderOrFileName(isFolder: Boolean) {
+            var itemNames = Array<String>(forms!![0].items.size, { i ->
+                forms!![0].items[i].name
+            })
 
-        AlertDialog.Builder(this)
-                .setTitle("${if (isFolder) resources.getString(R.string.folder) else resources.getString(R.string.file)}${resources.getString(R.string.itemToBeUsedFor)}")
-                .setItems(
-                        itemNames, { _, position ->
-                    forms!![0].items.map {
-                        if (isFolder)
-                            it.folderName = forms!![0].items.indexOf(it) == position
-                        else
-                            it.fileName = forms!![0].items.indexOf(it) == position
-                        setFolderFileNameResult()
-                    }
-                }).show()
-    }
+            AlertDialog.Builder(this)
+                    .setTitle("${if (isFolder) resources.getString(R.string.folder) else resources.getString(R.string.file)}${resources.getString(R.string.itemToBeUsedFor)}")
+                    .setItems(
+                            itemNames, { _, position ->
+                        forms!![0].items.map {
+                            if (isFolder)
+                                it.folderName = forms!![0].items.indexOf(it) == position
+                            else
+                                it.fileName = forms!![0].items.indexOf(it) == position
+                            setFolderFileNameResult()
+                        }
+                    }).show()
+        }
 
     // 폴더명이나 파일명이 없는 상황이 발생하지 않도록
     fun secureFolderFileName() {
@@ -142,7 +140,7 @@ class EditFormActivity : FormSavingActivity() {
     }
 
     fun setFolderFileNameResult() {
-        forms!![0].items?.map {
+        forms!![0].items.map {
             if (it.folderName) {
                 folderNameTV?.text = resources.getString(R.string.folderName) + it.name
             }

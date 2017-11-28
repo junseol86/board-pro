@@ -16,20 +16,12 @@ import ko.hyeonmin.boardpro.R
  * Created by junse on 2017-11-06.
  */
 
-class BlackButton : ConstraintLayout, View.OnTouchListener {
+class BlackButton(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs), View.OnTouchListener {
 
     var touched = false
     private var buttonRect: Rect = Rect(0, 0, 0, 0)
     private val buttonPaint: Paint = Paint()
     var activity: Activity? = null
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        this.activity = context as Activity
-        this.setOnTouchListener(this)
-        isClickable = true
-        buttonPaint.style = Paint.Style.FILL
-        setWillNotDraw(false)
-    }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
@@ -43,9 +35,18 @@ class BlackButton : ConstraintLayout, View.OnTouchListener {
         when (event!!.action) {
             MotionEvent.ACTION_DOWN -> touched = true
             MotionEvent.ACTION_UP -> touched = false
+            MotionEvent.ACTION_CANCEL -> touched = false
         }
         invalidate()
         return true
+    }
+
+    init {
+        this.activity = context as Activity
+        this.setOnTouchListener(this)
+        isClickable = true
+        buttonPaint.style = Paint.Style.FILL
+        setWillNotDraw(false)
     }
 
 }

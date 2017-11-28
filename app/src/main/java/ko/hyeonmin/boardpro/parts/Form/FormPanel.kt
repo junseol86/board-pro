@@ -86,18 +86,6 @@ class FormPanel(val activity: ConsoleActivity) {
 
     fun setInterfaceText() {
         currentFormTitle.text = activity.forms!![0].title
-        setFileFolderNameResult()
-    }
-
-    fun setFileFolderNameResult() {
-//        항목 foNm, fiNm 값에 따라 파일명, 폴더명을 표시
-        activity.forms!![0].items.map {
-            if (it.folderName) {
-                activity.photoPanel?.setPhotoFolder(it.content.replace(" ", "_").replace("\n", "_"))
-            }
-            if (it.fileName) {
-            }
-        }
     }
 
     fun selectFormStart() {

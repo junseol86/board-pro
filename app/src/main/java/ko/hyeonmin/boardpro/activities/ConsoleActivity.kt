@@ -12,8 +12,8 @@ import ko.hyeonmin.boardpro.utils.RequestCode
 
 class ConsoleActivity : FormSavingActivity() {
 
-   var photoPanel: PhotoPanel? = null
     var formPanel: FormPanel? = null
+    var photoPanel: PhotoPanel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +21,7 @@ class ConsoleActivity : FormSavingActivity() {
         setContentView(R.layout.activity_console)
         caches = Caches(this)
         formPanel = FormPanel(this)
+        photoPanel = PhotoPanel(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

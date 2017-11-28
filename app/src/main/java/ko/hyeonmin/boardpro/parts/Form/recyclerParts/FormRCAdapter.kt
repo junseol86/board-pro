@@ -91,7 +91,6 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
             override fun afterTextChanged(p0: Editable?) {
                 if (item.type == "text")
                     activity.forms!![0].items[position].content = p0!!.toString()
-                activity.formPanel?.setFileFolderNameResult()
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -106,13 +105,6 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
                         if (it.itemName == item.name) {
                             hasSaved = true
                             activity.formPanel?.selectContentStart(position, it)
-//                            var contents = Array(it.contentList.size, {i -> it.contentList[i]})
-//                            AlertDialog.Builder(activity)
-//                                    .setItems(contents, { _, contentPosition ->
-//                                        item.content = contents[contentPosition]
-//                                        notifyItemChanged(position)
-//                                    })
-//                                    .show()
                         }
                     }
                     if (!hasSaved)

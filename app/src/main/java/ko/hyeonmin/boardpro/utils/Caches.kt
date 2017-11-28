@@ -32,6 +32,12 @@ class Caches(val activity: Activity) {
             formsSF.edit().putString("itemContentsJSON", value).commit()
         }
 
+    var boardSettingJson: String
+        get() = formsSF.getString("boardSettingJSON", "")
+        set(value) {
+            formsSF.edit().putString("boardSettingJSON", value).commit()
+        }
+
     init {
 //        formsJson = ""
         if (formsJson == "") {
