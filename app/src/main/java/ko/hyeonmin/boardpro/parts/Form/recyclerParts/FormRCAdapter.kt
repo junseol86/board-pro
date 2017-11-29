@@ -85,12 +85,13 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
                 if (item.type == "text")
                     item.content
                 else {
-                    SimpleDateFormat(item.dateForm).format(if (selectedTime == 0L) Date() else Date(selectedTime))
+                    val dateString = SimpleDateFormat(item.dateForm).format(if (selectedTime == 0L) Date() else Date(selectedTime))
+                    item.content = dateString
+                    dateString
                 })
         holder?.contentEt?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                if (item.type == "text")
-                    activity.forms!![0].items[position].content = p0!!.toString()
+                activity.forms!![0].items[position].content = p0!!.toString()
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}

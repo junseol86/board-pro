@@ -59,6 +59,7 @@ class SelectContentRCAdapter(val activity: ConsoleActivity, val givenPosition: I
                 activity.forms!![0].items[givenPosition].content = itemContent.contentList[0]
                 activity.formPanel?.formRCAdapter?.notifyItemChanged(givenPosition)
                 saveItemContent()
+                activity.photoPanel?.previewCanvas?.invalidate()
             }
             false
         }
