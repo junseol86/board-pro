@@ -1,5 +1,6 @@
 package ko.hyeonmin.boardpro.parts.Photo
 
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.TextView
 import com.google.gson.Gson
@@ -9,6 +10,9 @@ import ko.hyeonmin.boardpro.models.ItemContent
 import ko.hyeonmin.boardpro.parts.Photo.board.BoardSetting
 import ko.hyeonmin.boardpro.parts.Photo.board.PreviewCanvas
 import ko.hyeonmin.boardpro.viewExtension.BlackButton
+import ko.hyeonmin.boardpro.viewExtension.CIBg
+import ko.hyeonmin.boardpro.viewExtension.CIBorder
+import ko.hyeonmin.boardpro.viewExtension.CIText
 
 /**
  * Created by junse on 2017-11-13.
@@ -19,7 +23,15 @@ class PhotoPanel(val activity: ConsoleActivity) {
     var boardSetting = if (activity.caches!!.boardSettingJson == "") BoardSetting() else Gson().fromJson(activity.caches!!.boardSettingJson, BoardSetting::class.java)
     var previewCanvas: PreviewCanvas = activity.findViewById(R.id.previewCanvas)
 
+    var ciText: CIText = activity.findViewById(R.id.ciText)
+    var ciBorder: CIBorder = activity.findViewById(R.id.ciBorder)
+    var ciBg: CIBg = activity.findViewById(R.id.ciBg)
+
     init {
+
+        ciText.invalidate()
+        ciBorder.invalidate()
+        ciBg.invalidate()
 
         takePhotoBtn.setOnTouchListener { view, event ->
             takePhotoBtn.onTouch(view, event)

@@ -14,7 +14,7 @@ class BoardDrawer {
 
     fun draw(form: Form, bs: BoardSetting, canvas: Canvas, width: Float, height: Float, scale: Float): Triple<Float, Float, Boolean> {
 
-        val items = form.items.filter { it.content != "" }
+        val items = form.items
         val fz = bs.fontSize * scale
 
         val textPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
@@ -22,6 +22,7 @@ class BoardDrawer {
         textPaint.color = Color.parseColor(bs.fontColor)
         textPaint.textSize = fz
 
+//        한 줄의 높이 구하기
         var r = Rect()
         textPaint.getTextBounds("A가天", 0, 3, r)
         textPaint.getTextBounds("A가天", 0, 3, r)
@@ -40,9 +41,11 @@ class BoardDrawer {
         var lineHeights: ArrayList<Float> = ArrayList()
 
         items.map {
+//            항목 이름 중 가장 긴 것을 구하여 열 너비에 적용
             maxItemWidth = Math.max(if (it.name.isNotEmpty()) textPaint.measureText(it.name) else 0f, maxItemWidth)
         }
         items.map {
+//            항목 내용은 여러 줄일 수 있으므로 줄별로 나누어 구함
             val contentLines = it.content.split('\n')
             val noItemName = it.name == ""
             (0 until contentLines.size).map {
@@ -55,9 +58,11 @@ class BoardDrawer {
         val boardW = maxItemWidth + maxContentWidth + (fz * 2f)
         val boardH = lineHeights.map{it + fz}.sum()
 
+//        보드 높이나 너비가 주어진 공간보다 크면 세번째 값에 false를 반환
         if (boardW > width || boardH > height)
             return Triple(boardW, boardH, false)
 
+//        작다면 계속 그린다
         val x = (width - boardW) / 2f
         val y = (height - boardH) / 2f
 
@@ -65,7 +70,9 @@ class BoardDrawer {
         canvas.drawRect(rect, bgPaint)
         canvas.drawRect(rect, borderPaint)
 
+//        각 행을 그려나갈 때마다 축적되는 높이
         var acumH = 0f
+
         (0 until items.size).map {
             if (it != items.size && items[it].name != "")
                 canvas.drawLine(x + maxItemWidth + fz, y + acumH, x + maxItemWidth + fz, y + acumH + lineHeights[it] + fz, borderPaint)
@@ -84,6 +91,7 @@ class BoardDrawer {
             acumH += (lineHeights[it] + fz)
         }
 
+//        그리기에 성공했으니 세번째 값으로 true 반환
         return Triple(boardW, boardH, true)
     }
 }

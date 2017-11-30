@@ -34,10 +34,12 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
             .setView(popupSelDateView)
             .setPositiveButton(activity.resources.getString(R.string.ok), { _, _ ->
                 notifyItemChanged(selectedPosition)
+                activity.photoPanel?.previewCanvas?.invalidate()
             })
     var selectDialog: AlertDialog = builder.create()
 
     init{
+//        날짜 다이얼로그에서 달력
         calendarView.setOnDateChangeListener { _, year, month, day ->
             var cal =  Calendar.getInstance()
             val hour = cal.get(Calendar.HOUR_OF_DAY)
@@ -46,12 +48,14 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
             selectedTime = cal.timeInMillis
             setDateTimeButtonText(selectedPosition)
         }
+//        날짜 형식 고르기
         dateFormBtn.setOnTouchListener { view, event ->
             dateFormBtn.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP)
                 setDateFormatDialog()
             false
         }
+//        시간 형식 고르기
         timeFormBtn.setOnTouchListener { view, event ->
             timeFormBtn.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP)
@@ -72,15 +76,18 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val item = activity.forms!![0].items[position]
+
+//        항목 이름 입력칸
         holder?.nameEt?.setText(item.name)
         holder?.nameEt?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                if (item.type == "text")
-                    activity.forms!![0].items[position].name = p0!!.toString()
+                activity.forms!![0].items[position].name = p0!!.toString()
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
+
+//        항목 내용 입력칸
         holder?.contentEt?.setText(
                 if (item.type == "text")
                     item.content
@@ -96,11 +103,15 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
+
+//        내용 히스토리 또는 날짜 고르기 버튼
         holder?.selectBtnImg?.setImageResource(if (item.type == "text") R.drawable.cs_lb_rc_select else R.drawable.cs_lb_rc_date)
         holder?.selectBtn?.setOnTouchListener { view, event ->
             holder?.selectBtn?.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP) {
+
                 if (item.type == "text") {
+//                  내용 히스토리 중 고르기
                     var hasSaved = false
                     activity.formPanel?.itemContents?.map {
                         if (it.itemName == item.name) {
@@ -110,7 +121,9 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
                     }
                     if (!hasSaved)
                         Toast.makeText(activity, activity.resources.getString(R.string.noContentSavedForThisItem), Toast.LENGTH_SHORT).show()
+
                 } else {
+//                    날짜 다이얼로그 열기
                     selectedPosition = position
                     selectDialog.show()
                     setDateTimeButtonText(position)
@@ -120,6 +133,7 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
         }
     }
 
+//    날짜 다이얼로그에서 날짜형식 버튼과 시간형식 버튼 각각 텍스트 설정
     fun setDateTimeButtonText(position: Int) {
         val dateFormStrings = activity.forms!![0].items[position].dateForm.split(" ")
         dateFormTV.text = SimpleDateFormat(dateFormStrings[0]).format(Date(if (selectedTime == 0L) calendarView.date else selectedTime))
@@ -128,7 +142,7 @@ class FormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<FormRCA
 
     fun setDateFormatDialog() {
         AlertDialog.Builder(activity)
-                .setTitle("날짜 형식")
+                .setTitle(activity.resources.getString(R.string.dateFormat))
                 .setItems(
                         Array(activity.resources.getStringArray(R.array.day_format).size, {i ->
                         SimpleDateFormat(activity.resources.getStringArray(R.array.day_format)[i]).format(Date(if (selectedTime == 0L) calendarView.date else selectedTime))}),

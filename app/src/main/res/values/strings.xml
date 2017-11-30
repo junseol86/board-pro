@@ -35,6 +35,7 @@
     <string name="emptyToMakeFullLine">You can leave this empty to make single columned row</string>
 
     <string name="noContentSavedForThisItem">No content cached for this item</string>
+    <string name="dateFormat">Date format</string>
     <string name="timeFormat">Time format</string>
     <string name="none">(None)</string>
     <string name="mustBeOneOrMoreForm">There must be one or more form</string>
