@@ -30,17 +30,21 @@ class FormPanel(val activity: ConsoleActivity) {
 
     var itemContents: ArrayList<ItemContent> = Gson().fromJson(activity.caches?.itemContentsJson, object : TypeToken<ArrayList<ItemContent>>() {}.type)
 
+    // 첫 화면 상단의 보드 작성 리사이클러뷰
     private val labelRecyclerView: RecyclerView = activity.findViewById(R.id.formRecyclerView)
     var formRCAdapter: FormRCAdapter? = null
     private val labelRCLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)
 
+    // 서식선택, 다른이름저장, 서식수정 버튼
     private val selectFormBtn: WhiteButton = activity.findViewById(R.id.selectForm)
     private val saveFormBtn: WhiteButton = activity.findViewById(R.id.saveForm)
     private val editFormBtn: WhiteButton = activity.findViewById(R.id.editForm)
 
+    // 서식선택 다이얼로그와 리사이클러뷰
     var selectFormRV: RecyclerView? = null
     var adSelectFormBuilder: AlertDialog? = null
 
+    // 항목 컨텐츠 선택 다이얼로그와 리사이클러뷰
     var selectContentRV: RecyclerView? = null
     var adSelectContentBuilder: AlertDialog? = null
 
@@ -73,21 +77,24 @@ class FormPanel(val activity: ConsoleActivity) {
             false
         }
 
-
     }
 
+    // 서식 내용 화면에 적용
     fun applyForm() {
         activity.forms = Gson().fromJson(activity.caches?.formsJson, object : TypeToken<ArrayList<Form>>() {}.type)
 
         formRCAdapter = FormRCAdapter(activity)
         labelRecyclerView.adapter = formRCAdapter
         setInterfaceText()
+        activity.photoPanel?.previewCanvas?.invalidate()
     }
 
+    // 인터페이스 상 텍스트 설정
     fun setInterfaceText() {
         currentFormTitle.text = activity.forms!![0].title
     }
 
+    // 서식 선택 다이얼로그 열기
     fun selectFormStart() {
         selectFormRV = RecyclerView(activity)
         var selectFormLM = LinearLayoutManager(activity)
@@ -101,6 +108,7 @@ class FormPanel(val activity: ConsoleActivity) {
         adSelectFormBuilder?.show()
     }
 
+    // 항목 내용 선택 다이얼로그 열기
     fun selectContentStart(givenPosition: Int, itemContent: ItemContent) {
         selectContentRV = RecyclerView(activity)
         var selectContentLM = LinearLayoutManager(activity)
@@ -114,6 +122,7 @@ class FormPanel(val activity: ConsoleActivity) {
         adSelectContentBuilder?.show()
     }
 
+    // 서식 수정 화면으로 이동
     fun editFormStart() {
         activity.saveForms()
         var intent = Intent(activity, EditFormActivity::class.java)

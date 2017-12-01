@@ -1,8 +1,6 @@
 package ko.hyeonmin.boardpro.parts.Photo
 
-import android.util.Log
 import android.view.MotionEvent
-import android.widget.TextView
 import com.google.gson.Gson
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.activities.ConsoleActivity
@@ -29,9 +27,7 @@ class PhotoPanel(val activity: ConsoleActivity) {
 
     init {
 
-        ciText.invalidate()
-        ciBorder.invalidate()
-        ciBg.invalidate()
+        applyToColorIndicators()
 
         takePhotoBtn.setOnTouchListener { view, event ->
             takePhotoBtn.onTouch(view, event)
@@ -42,8 +38,9 @@ class PhotoPanel(val activity: ConsoleActivity) {
         }
     }
 
+    // 각 항목마다 새로운 내용이 있으면 저장
     private fun saveItemContents() {
-        activity.forms!![0].items.map {
+        activity.forms!![0].items.filter { it.content != "" }.map {
             val item = it
             var hasItem = false
             activity.formPanel?.itemContents?.map {
@@ -61,5 +58,12 @@ class PhotoPanel(val activity: ConsoleActivity) {
             }
         }
         activity.caches?.itemContentsJson = Gson().toJson(activity.formPanel!!.itemContents)
+    }
+
+    // 보드의 텍스트, 선, 면 색상 버튼에 선택된 색상을 표시
+    fun applyToColorIndicators() {
+        ciText.invalidate()
+        ciBorder.invalidate()
+        ciBg.invalidate()
     }
 }
