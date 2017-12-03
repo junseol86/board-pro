@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ko.hyeonmin.boardpro.R
+import ko.hyeonmin.boardpro.activities.ConsoleActivity
 import ko.hyeonmin.boardpro.viewExtension.ColorVH
 
 /**
@@ -14,6 +15,28 @@ import ko.hyeonmin.boardpro.viewExtension.ColorVH
 class ColorPickAD(val activity: Activity, val cp: ColorPicker): RecyclerView.Adapter<ColorPickAD.ColorPickerVH>() {
     override fun onBindViewHolder(holder: ColorPickerVH?, position: Int) {
         holder?.colorVH?.colorStr = cp.colors[position]
+
+        holder?.colorVH?.isOn =
+                if (activity is ConsoleActivity) {
+                    when (cp.pickWhich) {
+                        cp.PC_TEXT -> activity.photoPanel?.boardSetting?.fontColor == cp.colors[position]
+                        cp.PC_BORDER -> activity.photoPanel?.boardSetting?.borderColor == cp.colors[position]
+                        else -> activity.photoPanel?.boardSetting?.bgColor == cp.colors[position]
+                    }
+                } else
+                    false
+        holder?.colorVH?.setOnClickListener {
+            if (activity is ConsoleActivity) {
+                when (cp.pickWhich)  {
+                    cp.PC_TEXT -> activity.photoPanel?.boardSetting?.fontColor = cp.colors[position]
+                    cp.PC_BORDER ->  activity.photoPanel?.boardSetting?.borderColor = cp.colors[position]
+                    else -> activity.photoPanel?.boardSetting?.bgColor = cp.colors[position]
+                }
+                activity.photoPanel?.applyToColorIndicators()
+                activity.photoPanel?.previewCanvas?.invalidate()
+                cp.adColorPickerBuilder?.dismiss()
+            }
+        }
     }
 
     override fun getItemCount(): Int = cp.colors.size

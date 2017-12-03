@@ -5,8 +5,8 @@ package ko.hyeonmin.boardpro.parts.Photo.board
  */
 class BoardSetting {
     var fontSize = 24f
-    var fontColor = "#000000"
-    var bgColor = "#FFFFFF"
+    var fontColor = "000000"
+    var bgColor = "ffffff"
     var bgOpacity = 0.8f
-    var borderColor = "#999999"
+    var borderColor = "999999"
 }

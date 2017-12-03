@@ -19,7 +19,7 @@ class BoardDrawer {
 
         val textPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
         textPaint.textAlign = Paint.Align.LEFT
-        textPaint.color = Color.parseColor(bs.fontColor)
+        textPaint.color = Color.parseColor("#${bs.fontColor}")
         textPaint.textSize = fz
 
 //        한 줄의 높이 구하기
@@ -29,11 +29,12 @@ class BoardDrawer {
         val singleLH = r.height()
 
         val bgPaint = Paint()
-        bgPaint.color = Color.parseColor(bs.bgColor)
+        bgPaint.color = Color.parseColor("#${bs.bgColor}")
         bgPaint.style = Paint.Style.FILL
 
         var borderPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
-        borderPaint.color = Color.parseColor(bs.borderColor)
+        borderPaint.color = Color.parseColor("#${bs.borderColor}")
+
         borderPaint.style = Paint.Style.STROKE
 
         var maxItemWidth = 0f

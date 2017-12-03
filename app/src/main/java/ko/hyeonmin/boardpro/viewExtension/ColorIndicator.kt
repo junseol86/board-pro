@@ -21,7 +21,7 @@ open class ColorIndicator(context: Context, attrs: AttributeSet): View(context, 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         strokePaint.color = Color.WHITE
-        fillPaint.color = Color.parseColor(getColorStr())
+        fillPaint.color = Color.parseColor("#${getColorStr()}")
 
         canvas?.drawCircle(width / 2f, height / 2f, width / 2f - 4f, fillPaint)
         canvas?.drawCircle(width / 2f, height / 2f, width / 2f - 4f, strokePaint)
@@ -36,6 +36,6 @@ open class ColorIndicator(context: Context, attrs: AttributeSet): View(context, 
         fillPaint.style = Paint.Style.FILL
     }
 
-    open fun getColorStr(): String = "#FFFFFF"
+    open fun getColorStr(): String = "FFFFFF"
 
 }

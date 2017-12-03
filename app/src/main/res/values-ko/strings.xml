@@ -60,4 +60,8 @@
 
     <string name="selectPhoto">사진 선택</string>
     <string name="takePhoto">사진 촬영</string>
+
+    <string name="colorText">글자색</string>
+    <string name="colorBorder">선 색</string>
+    <string name="colorBg">배경색</string>
 </resources>

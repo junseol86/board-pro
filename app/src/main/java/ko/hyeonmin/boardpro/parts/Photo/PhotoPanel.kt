@@ -7,6 +7,7 @@ import ko.hyeonmin.boardpro.activities.ConsoleActivity
 import ko.hyeonmin.boardpro.models.ItemContent
 import ko.hyeonmin.boardpro.parts.Photo.board.BoardSetting
 import ko.hyeonmin.boardpro.parts.Photo.board.PreviewCanvas
+import ko.hyeonmin.boardpro.parts.Photo.colorPicker.ColorPicker
 import ko.hyeonmin.boardpro.viewExtension.BlackButton
 import ko.hyeonmin.boardpro.viewExtension.CIBg
 import ko.hyeonmin.boardpro.viewExtension.CIBorder
@@ -21,9 +22,12 @@ class PhotoPanel(val activity: ConsoleActivity) {
     var boardSetting = if (activity.caches!!.boardSettingJson == "") BoardSetting() else Gson().fromJson(activity.caches!!.boardSettingJson, BoardSetting::class.java)
     var previewCanvas: PreviewCanvas = activity.findViewById(R.id.previewCanvas)
 
+    val colorPicker = ColorPicker(activity)
+
     var ciText: CIText = activity.findViewById(R.id.ciText)
     var ciBorder: CIBorder = activity.findViewById(R.id.ciBorder)
     var ciBg: CIBg = activity.findViewById(R.id.ciBg)
+
 
     init {
 

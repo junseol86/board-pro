@@ -1,8 +1,12 @@
 package ko.hyeonmin.boardpro.parts.Photo.colorPicker
 
 import android.app.AlertDialog
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.MotionEvent
+import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.activities.ConsoleActivity
+import ko.hyeonmin.boardpro.viewExtension.BlackButton
 
 /**
  * Created by junse on 2017-12-01.
@@ -28,10 +32,58 @@ class ColorPicker(val activity: ConsoleActivity) {
     var selectColorRV: RecyclerView? = null
     var adColorPickerBuilder: AlertDialog? = null
 
+    val colorBtnText: BlackButton = activity.findViewById(R.id.textColorBtn)
+    val colorBtnBorder: BlackButton = activity.findViewById(R.id.borderColorBtn)
+    val colorBtnBg: BlackButton = activity.findViewById(R.id.bgColorBtn)
+
+    init {
+
+        colorBtnText.setOnTouchListener { view, event ->
+            colorBtnText.onTouch(view, event)
+            if (event.action == MotionEvent.ACTION_UP) {
+                startColorPick(PC_TEXT)
+            }
+            false
+        }
+
+        colorBtnBorder.setOnTouchListener { view, event ->
+            colorBtnBorder.onTouch(view, event)
+            if (event.action == MotionEvent.ACTION_UP) {
+                startColorPick(PC_BORDER)
+            }
+            false
+        }
+
+        colorBtnBg.setOnTouchListener { view, event ->
+            colorBtnBg.onTouch(view, event)
+            if (event.action == MotionEvent.ACTION_UP) {
+                startColorPick(PC_BG)
+            }
+            false
+        }
+
+    }
+
     fun startColorPick(which: Int) {
         pickWhich = which
 
+        selectColorRV = RecyclerView(activity)
+        val selectColorLM = GridLayoutManager(activity, 10)
+        val selectColorAD = ColorPickAD(activity, this)
+        selectColorRV?.layoutManager = selectColorLM
+        selectColorRV?.adapter = selectColorAD
 
+        adColorPickerBuilder = AlertDialog.Builder(activity)
+                .setMessage(
+                       when (pickWhich)  {
+                           PC_TEXT -> activity.resources.getString(R.string.colorText)
+                           PC_BORDER -> activity.resources.getString(R.string.colorBorder)
+                           else -> activity.resources.getString(R.string.colorBg)
+                       }
+                )
+                .create()
+        adColorPickerBuilder?.setView(selectColorRV)
+        adColorPickerBuilder?.show()
     }
 
 }

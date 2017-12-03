@@ -60,4 +60,8 @@
 
     <string name="selectPhoto">Select photo</string>
     <string name="takePhoto">Take photo</string>
+
+    <string name="colorText">Text Color</string>
+    <string name="colorBorder">Border Color</string>
+    <string name="colorBg">Background Color</string>
 </resources>
