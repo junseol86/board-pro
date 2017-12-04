@@ -1,5 +1,6 @@
 package ko.hyeonmin.boardpro.parts.Form.recyclerParts
 
+import android.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
@@ -41,11 +42,17 @@ class SelectFormRCAdapter(val activity: ConsoleActivity): RecyclerView.Adapter<S
                 if (activity.forms!!.size == 1) {
                     Toast.makeText(activity, activity.resources.getString(R.string.mustBeOneOrMoreForm), Toast.LENGTH_SHORT).show()
                 } else {
-                    activity.forms!!.removeAt(position)
-                    notifyDataSetChanged()
-                    activity.saveForms()
-                    if (position == 0)
-                        activity.applyNewForm()
+                    AlertDialog.Builder(activity)
+                            .setTitle(activity.resources.getString(R.string.deleteThisForm))
+                            .setPositiveButton(activity.resources.getString(R.string.ok), { _, _ ->
+                                activity.forms!!.removeAt(position)
+                                notifyDataSetChanged()
+                                activity.saveForms()
+                                if (position == 0)
+                                    activity.applyNewForm()
+                            })
+                            .setNegativeButton(activity.resources.getString(R.string.cancel), {_, _ ->})
+                            .show()
                 }
             }
             false

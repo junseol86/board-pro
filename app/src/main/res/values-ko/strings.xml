@@ -64,4 +64,6 @@
     <string name="colorText">글자색</string>
     <string name="colorBorder">선 색</string>
     <string name="colorBg">배경색</string>
+
+    <string name="deleteThisForm">이 서식을 삭제하시겠습니까?</string>
 </resources>

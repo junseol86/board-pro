@@ -64,4 +64,6 @@
     <string name="colorText">Text Color</string>
     <string name="colorBorder">Border Color</string>
     <string name="colorBg">Background Color</string>
+
+    <string name="deleteThisForm">Do you want to this form?</string>
 </resources>
