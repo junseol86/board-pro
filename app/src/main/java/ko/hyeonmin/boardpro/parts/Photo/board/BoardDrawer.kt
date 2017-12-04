@@ -4,7 +4,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import android.util.Log
 import ko.hyeonmin.boardpro.models.Form
 
 /**
@@ -16,6 +15,8 @@ class BoardDrawer {
 
         val items = form.items
         val fz = bs.fontSize * scale
+        val bdrW = fz / 20f
+        val halfBdrW = (bdrW / 2f).toInt()
 
         val textPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
         textPaint.textAlign = Paint.Align.LEFT
@@ -31,11 +32,13 @@ class BoardDrawer {
         val bgPaint = Paint()
         bgPaint.color = Color.parseColor("#${bs.bgColor}")
         bgPaint.style = Paint.Style.FILL
+        bgPaint.alpha = (bs.bgOpacity * 255f / 100f).toInt()
 
         var borderPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
         borderPaint.color = Color.parseColor("#${bs.borderColor}")
 
         borderPaint.style = Paint.Style.STROKE
+        borderPaint.strokeWidth = bdrW
 
         var maxItemWidth = 0f
         var maxContentWidth = 0f
@@ -56,11 +59,11 @@ class BoardDrawer {
             lineHeights.add(contentH)
         }
 
-        val boardW = maxItemWidth + maxContentWidth + (fz * 2f)
-        val boardH = lineHeights.map{it + fz}.sum()
+        val boardW = maxItemWidth + maxContentWidth + (fz * 2f) + bdrW
+        val boardH = lineHeights.map{it + fz}.sum() + bdrW
 
 //        보드 높이나 너비가 주어진 공간보다 크면 세번째 값에 false를 반환
-        if (boardW > width || boardH > height)
+        if (boardW > width * .9f || boardH > height * .95f)
             return Triple(boardW, boardH, false)
 
 //        작다면 계속 그린다
@@ -76,17 +79,32 @@ class BoardDrawer {
 
         (0 until items.size).map {
             if (it != items.size && items[it].name != "")
-                canvas.drawLine(x + maxItemWidth + fz, y + acumH, x + maxItemWidth + fz, y + acumH + lineHeights[it] + fz, borderPaint)
+                canvas.drawLine(
+                        x + maxItemWidth + fz + halfBdrW,
+                        y + acumH + halfBdrW,
+                        x + maxItemWidth + fz + halfBdrW,
+                        y + acumH + lineHeights[it] + fz + halfBdrW,
+                        borderPaint)
             if (it != 0) {
-                canvas.drawLine(x + 0f, y + acumH, x + boardW, y + acumH, borderPaint)
+                canvas.drawLine(
+                        x + 0f + halfBdrW,
+                        y + acumH + halfBdrW,
+                        x + boardW + halfBdrW,
+                        y + acumH + halfBdrW,
+                        borderPaint)
             }
-            canvas.drawText(items[it].name, x + (fz / 2), y + acumH + (singleLH * 1.2f) + (fz / 2f), textPaint)
+            canvas.drawText(
+                    items[it].name,
+                    x + (fz / 2) + halfBdrW,
+                    y + acumH + (singleLH * 1.2f) + (fz / 2f) + halfBdrW,
+                    textPaint)
             val item = items[it]
             val ctntLines = items[it].content.split('\n')
             (0 until ctntLines.size).map {
-                canvas.drawText(ctntLines[it],
-                        x + (if (item.name == "") fz / 2 else  maxItemWidth + (fz * 1.5f)),
-                        y + acumH + (singleLH * 1.2f * (it + 1)) + (fz / 2f),
+                canvas.drawText(
+                        ctntLines[it],
+                        x + (if (item.name == "") fz / 2 else  maxItemWidth + (fz * 1.5f)) + halfBdrW,
+                        y + acumH + (singleLH * 1.2f * (it + 1)) + (fz / 2f) + halfBdrW,
                         textPaint)
             }
             acumH += (lineHeights[it] + fz)

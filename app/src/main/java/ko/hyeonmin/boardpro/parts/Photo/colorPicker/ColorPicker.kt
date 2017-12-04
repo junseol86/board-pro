@@ -7,14 +7,21 @@ import android.view.MotionEvent
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.activities.ConsoleActivity
 import ko.hyeonmin.boardpro.viewExtension.BlackButton
+import ko.hyeonmin.boardpro.viewExtension.CIBg
+import ko.hyeonmin.boardpro.viewExtension.CIBorder
+import ko.hyeonmin.boardpro.viewExtension.CIText
 
 /**
  * Created by junse on 2017-12-01.
  */
 class ColorPicker(val activity: ConsoleActivity) {
-    public val PC_TEXT = 0
-    public val PC_BORDER = 1
-    public val PC_BG = 2
+    val PC_TEXT = 0
+    val PC_BORDER = 1
+    val PC_BG = 2
+
+    var ciText: CIText = activity.findViewById(R.id.ciText)
+    var ciBorder: CIBorder = activity.findViewById(R.id.ciBorder)
+    var ciBg: CIBg = activity.findViewById(R.id.ciBg)
 
     var pickWhich = PC_TEXT
 
@@ -84,6 +91,13 @@ class ColorPicker(val activity: ConsoleActivity) {
                 .create()
         adColorPickerBuilder?.setView(selectColorRV)
         adColorPickerBuilder?.show()
+    }
+
+    // 보드의 텍스트, 선, 면 색상 버튼에 선택된 색상을 표시
+    fun applyToColorIndicators() {
+        ciText.invalidate()
+        ciBorder.invalidate()
+        ciBg.invalidate()
     }
 
 }

@@ -7,6 +7,6 @@ class BoardSetting {
     var fontSize = 24f
     var fontColor = "000000"
     var bgColor = "ffffff"
-    var bgOpacity = 0.8f
-    var borderColor = "999999"
+    var borderColor = "6fa8dc"
+    var bgOpacity = 80
 }

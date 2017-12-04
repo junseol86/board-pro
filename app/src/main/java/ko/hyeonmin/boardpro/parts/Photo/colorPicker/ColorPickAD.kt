@@ -32,7 +32,7 @@ class ColorPickAD(val activity: Activity, val cp: ColorPicker): RecyclerView.Ada
                     cp.PC_BORDER ->  activity.photoPanel?.boardSetting?.borderColor = cp.colors[position]
                     else -> activity.photoPanel?.boardSetting?.bgColor = cp.colors[position]
                 }
-                activity.photoPanel?.applyToColorIndicators()
+                activity.photoPanel?.colorPicker?.applyToColorIndicators()
                 activity.photoPanel?.previewCanvas?.invalidate()
                 cp.adColorPickerBuilder?.dismiss()
             }
