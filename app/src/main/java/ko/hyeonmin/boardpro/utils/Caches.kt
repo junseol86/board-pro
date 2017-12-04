@@ -3,14 +3,12 @@ package ko.hyeonmin.boardpro.utils
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.google.gson.Gson
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.models.Form
 import ko.hyeonmin.boardpro.models.Item
 import ko.hyeonmin.boardpro.models.ItemContent
-import org.json.JSONArray
-import org.json.JSONObject
+import ko.hyeonmin.boardpro.parts.Photo.board.BoardSetting
 
 /**
  * Created by junse on 2017-11-05.
@@ -66,6 +64,12 @@ class Caches(val activity: Activity) {
             var itemContentList = ArrayList<ItemContent>()
             itemContentList.add(itemContent)
             itemContentsJson = Gson().toJson(itemContentList)
+        }
+
+//        boardSettingJson = ""
+        if (boardSettingJson == "") {
+            val bs = BoardSetting()
+            boardSettingJson = Gson().toJson(bs)
         }
 
     }

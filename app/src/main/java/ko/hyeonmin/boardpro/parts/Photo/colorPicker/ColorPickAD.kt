@@ -34,6 +34,7 @@ class ColorPickAD(val activity: Activity, val cp: ColorPicker): RecyclerView.Ada
                 }
                 activity.photoPanel?.colorPicker?.applyToColorIndicators()
                 activity.photoPanel?.previewCanvas?.invalidate()
+                activity.photoPanel?.saveBoardSetting()
                 cp.adColorPickerBuilder?.dismiss()
             }
         }

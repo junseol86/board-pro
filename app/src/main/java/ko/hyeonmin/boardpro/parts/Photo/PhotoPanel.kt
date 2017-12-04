@@ -21,7 +21,7 @@ import ko.hyeonmin.boardpro.viewExtension.BlackButton
 class PhotoPanel(val activity: ConsoleActivity) {
 
     private val takePhotoBtn: BlackButton = activity.findViewById(R.id.takePhoto)
-    var boardSetting = if (activity.caches!!.boardSettingJson == "") BoardSetting() else Gson().fromJson(activity.caches!!.boardSettingJson, BoardSetting::class.java)
+    var boardSetting = Gson().fromJson(activity.caches!!.boardSettingJson, BoardSetting::class.java)
     var previewCanvas: PreviewCanvas = activity.findViewById(R.id.previewCanvas)
 
     val colorPicker = ColorPicker(activity)
@@ -49,6 +49,7 @@ class PhotoPanel(val activity: ConsoleActivity) {
             alphaBtn.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP) {
                 toggleAdjustingAlpha()
+                saveBoardSetting()
             }
             false
         }
@@ -110,5 +111,10 @@ class PhotoPanel(val activity: ConsoleActivity) {
     // 퍼센트 텍스트 표시
     fun setAlphaPercentText() {
         alphaTV.text = "${boardSetting.bgOpacity}%"
+    }
+
+    //
+    fun saveBoardSetting() {
+        activity.caches?.boardSettingJson = Gson().toJson(boardSetting)
     }
 }
