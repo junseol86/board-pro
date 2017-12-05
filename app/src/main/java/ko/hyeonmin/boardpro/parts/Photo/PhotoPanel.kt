@@ -1,5 +1,6 @@
 package ko.hyeonmin.boardpro.parts.Photo
 
+import android.content.Intent
 import android.os.Build
 import android.support.constraint.ConstraintLayout
 import android.view.MotionEvent
@@ -8,6 +9,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import com.google.gson.Gson
 import ko.hyeonmin.boardpro.R
+import ko.hyeonmin.boardpro.activities.CameraActivity
 import ko.hyeonmin.boardpro.activities.ConsoleActivity
 import ko.hyeonmin.boardpro.models.ItemContent
 import ko.hyeonmin.boardpro.parts.Photo.board.BoardSetting
@@ -19,6 +21,8 @@ import ko.hyeonmin.boardpro.viewExtension.BlackButton
  * Created by junse on 2017-11-13.
  */
 class PhotoPanel(val activity: ConsoleActivity) {
+
+    val TAKE_PHOTO = 0
 
     private val takePhotoBtn: BlackButton = activity.findViewById(R.id.takePhoto)
     var boardSetting = Gson().fromJson(activity.caches!!.boardSettingJson, BoardSetting::class.java)
@@ -74,6 +78,9 @@ class PhotoPanel(val activity: ConsoleActivity) {
             takePhotoBtn.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP) {
                 saveItemContents()
+
+                var intent = Intent(activity, CameraActivity::class.java)
+                activity.startActivityForResult(intent, TAKE_PHOTO)
             }
             false
         }
