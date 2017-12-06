@@ -1,6 +1,9 @@
 package ko.hyeonmin.boardpro.activities
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.Window
 import ko.hyeonmin.boardpro.R
@@ -19,6 +22,7 @@ class ConsoleActivity : FormSavingActivity() {
         super.onCreate(savedInstanceState)
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_console)
+        getPermissions()
         caches = Caches(this)
         formPanel = FormPanel(this)
         photoPanel = PhotoPanel(this)
@@ -32,5 +36,33 @@ class ConsoleActivity : FormSavingActivity() {
 
     override fun applyNewForm() {
         formPanel?.applyForm()
+    }
+
+    fun getPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED ||
+                    checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                requestPermissions(arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.INTERNET, android.Manifest.permission.CAMERA), 0)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>?, grantResults: IntArray?) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (grantResults!![0] != PackageManager.PERMISSION_GRANTED) {
+            finishAndRemoveTask()
+            return
+        }
+        if (grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+            finishAndRemoveTask()
+            return
+        }
+        if (grantResults[2] != PackageManager.PERMISSION_GRANTED) {
+            finishAndRemoveTask()
+            return
+        }
     }
 }

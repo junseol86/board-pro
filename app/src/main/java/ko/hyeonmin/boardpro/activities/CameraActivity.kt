@@ -1,10 +1,12 @@
 package ko.hyeonmin.boardpro.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.params.StreamConfigurationMap
 import android.os.Bundle
@@ -20,6 +22,21 @@ import java.util.*
 class CameraActivity: Activity() {
 
     var cameraId: String? = null
+    var cameraDevice: CameraDevice? = null
+    var cameraDeviceStateCallBack: CameraDevice.StateCallback = object : CameraDevice.StateCallback() {
+        override fun onOpened(camera_device: CameraDevice?) {
+            cameraDevice = camera_device
+        }
+        override fun onDisconnected(camera_device: CameraDevice?) {
+            camera_device?.close()
+            cameraDevice = null
+        }
+        override fun onError(camera_device: CameraDevice?, p1: Int) {
+            camera_device?.close()
+            cameraDevice = null
+        }
+
+    }
 
     var txtView: TextureView? = null
     var previewSize: Size? = null
@@ -37,6 +54,7 @@ class CameraActivity: Activity() {
 
                 override fun onSurfaceTextureAvailable(p0: SurfaceTexture?, width: Int, height: Int) {
                     setupCamera(width, height)
+                    openCamera()
                 }
             }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,6 +113,16 @@ class CameraActivity: Activity() {
             }) as Size
         }
         return mapSizes[0]
+    }
+
+    @SuppressLint("MissingPermission")
+    fun openCamera() {
+        var cameraManager: CameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        try {
+            cameraManager.openCamera(cameraId, cameraDeviceStateCallBack, null)
+        } catch(e: CameraAccessException) {
+            e.printStackTrace()
+        }
     }
 
 }
