@@ -3,15 +3,18 @@ package ko.hyeonmin.boardpro.activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Matrix
+import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.SurfaceTexture
-import android.hardware.camera2.CameraAccessException
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CameraManager
+import android.hardware.camera2.*
 import android.hardware.camera2.params.StreamConfigurationMap
 import android.os.Bundle
+import android.util.Log
 import android.util.Size
+import android.view.Surface
 import android.view.TextureView
+import android.view.View
 import android.view.Window
 import ko.hyeonmin.boardpro.R
 import java.util.*
@@ -26,6 +29,7 @@ class CameraActivity: Activity() {
     var cameraDeviceStateCallBack: CameraDevice.StateCallback = object : CameraDevice.StateCallback() {
         override fun onOpened(camera_device: CameraDevice?) {
             cameraDevice = camera_device
+            createCameraPreviewSession()
         }
         override fun onDisconnected(camera_device: CameraDevice?) {
             camera_device?.close()
@@ -37,30 +41,38 @@ class CameraActivity: Activity() {
         }
 
     }
+    var previewCaptureRequest: CaptureRequest? = null
+    var previewCaptureRequestBuilder: CaptureRequest.Builder? = null
+    var cameraCaptureSession: CameraCaptureSession? = null
+    var sessionCaptureCallback: CameraCaptureSession.CaptureCallback = object : CameraCaptureSession.CaptureCallback() {
+        override fun onCaptureStarted(session: CameraCaptureSession?, request: CaptureRequest?, timestamp: Long, frameNumber: Long) {
+            super.onCaptureStarted(session, request, timestamp, frameNumber)
+        }
+    }
 
     var txtView: TextureView? = null
     var previewSize: Size? = null
     val surfTxtListener: TextureView.SurfaceTextureListener =
             object: TextureView.SurfaceTextureListener {
+                override fun onSurfaceTextureAvailable(p0: SurfaceTexture?, width: Int, height: Int) {
+                    setupCamera(width, height)
+                    transformation(width, height)
+                    openCamera()
+                }
                 override fun onSurfaceTextureSizeChanged(p0: SurfaceTexture?, p1: Int, p2: Int) {
                 }
-
                 override fun onSurfaceTextureUpdated(p0: SurfaceTexture?) {
                 }
 
                 override fun onSurfaceTextureDestroyed(p0: SurfaceTexture?): Boolean {
                     return false
                 }
-
-                override fun onSurfaceTextureAvailable(p0: SurfaceTexture?, width: Int, height: Int) {
-                    setupCamera(width, height)
-                    openCamera()
-                }
             }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_camera)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
         txtView = findViewById(R.id.textureView)
     }
@@ -78,7 +90,7 @@ class CameraActivity: Activity() {
         try {
             for (camera_id in cameraManager.cameraIdList) {
                 val cameraCharacterictics = cameraManager.getCameraCharacteristics(camera_id)
-                if (cameraCharacterictics.get(CameraCharacteristics.LENS_FACING) !=
+                if (cameraCharacterictics.get(CameraCharacteristics.LENS_FACING) ==
                         CameraCharacteristics.LENS_FACING_FRONT) {
                     continue
                 }
@@ -123,6 +135,56 @@ class CameraActivity: Activity() {
         } catch(e: CameraAccessException) {
             e.printStackTrace()
         }
+    }
+
+    fun createCameraPreviewSession() {
+        try {
+            var surfaceTexture: SurfaceTexture = txtView!!.surfaceTexture
+            surfaceTexture.setDefaultBufferSize(previewSize!!.width, previewSize!!.height)
+            var previewSurface = Surface(surfaceTexture)
+            previewCaptureRequestBuilder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+            previewCaptureRequestBuilder?.addTarget(previewSurface)
+            cameraDevice?.createCaptureSession(Arrays.asList(previewSurface), object :CameraCaptureSession.StateCallback() {
+                override fun onConfigureFailed(p0: CameraCaptureSession?) {
+                }
+
+                override fun onConfigured(session: CameraCaptureSession?) {
+                    if (cameraDevice == null) {
+                        return
+                    }
+                    try {
+                        previewCaptureRequest = previewCaptureRequestBuilder!!.build()
+                        cameraCaptureSession = session
+                        cameraCaptureSession?.setRepeatingRequest(
+                                previewCaptureRequest,
+                                sessionCaptureCallback,
+                                null
+                        )
+                    } catch (e: CameraAccessException) {
+                        e.printStackTrace()
+                    }
+                }
+            }, null)
+
+        } catch (e: CameraAccessException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun transformation(width: Int, height: Int) {
+        if (previewSize == null || txtView == null)
+            return
+        var matrix = Matrix()
+        val txtRectF = RectF(0f, 0f, width.toFloat(), height.toFloat())
+        val prvRectF = RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.width.toFloat())
+        val centerX = txtRectF.centerX()
+        val centerY = txtRectF.centerY()
+        prvRectF.offset(centerX - prvRectF.centerX(), centerY - prvRectF.centerY())
+        matrix.setRectToRect(txtRectF, prvRectF, Matrix.ScaleToFit.FILL)
+        val scale = Math.max(width.toFloat()/previewSize!!.width, height.toFloat()/previewSize!!.height)
+        matrix.postScale(scale, scale, centerX, centerY)
+        matrix.postRotate(-90f, centerX, centerY)
+        txtView?.setTransform(matrix)
     }
 
 }
