@@ -4,13 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Matrix
-import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.hardware.camera2.params.StreamConfigurationMap
 import android.os.Bundle
-import android.util.Log
 import android.util.Size
 import android.view.Surface
 import android.view.TextureView
@@ -23,6 +21,10 @@ import java.util.*
  * Created by junse on 2017-12-05.
  */
 class CameraActivity: Activity() {
+
+    val R_4_3 = 0
+    val R_16_9 = 1
+    var ratio = R_16_9
 
     var cameraId: String? = null
     var cameraDevice: CameraDevice? = null
@@ -63,7 +65,6 @@ class CameraActivity: Activity() {
                 }
                 override fun onSurfaceTextureUpdated(p0: SurfaceTexture?) {
                 }
-
                 override fun onSurfaceTextureDestroyed(p0: SurfaceTexture?): Boolean {
                     return false
                 }
@@ -140,7 +141,11 @@ class CameraActivity: Activity() {
     fun createCameraPreviewSession() {
         try {
             var surfaceTexture: SurfaceTexture = txtView!!.surfaceTexture
-            surfaceTexture.setDefaultBufferSize(previewSize!!.width, previewSize!!.height)
+            if (ratio == R_4_3) {
+                surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 4 / 3).toInt(), previewSize!!.height)
+            } else {
+                surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 16 / 9).toInt(), previewSize!!.height)
+            }
             var previewSurface = Surface(surfaceTexture)
             previewCaptureRequestBuilder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
             previewCaptureRequestBuilder?.addTarget(previewSurface)
@@ -176,7 +181,11 @@ class CameraActivity: Activity() {
             return
         var matrix = Matrix()
         val txtRectF = RectF(0f, 0f, width.toFloat(), height.toFloat())
-        val prvRectF = RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.width.toFloat())
+        var prvRectF: RectF = if (ratio == R_4_3) {
+            RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 4 / 3)
+        } else {
+            RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 16 / 9)
+        }
         val centerX = txtRectF.centerX()
         val centerY = txtRectF.centerY()
         prvRectF.offset(centerX - prvRectF.centerX(), centerY - prvRectF.centerY())
