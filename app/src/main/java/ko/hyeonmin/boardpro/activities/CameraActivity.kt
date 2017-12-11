@@ -22,9 +22,10 @@ import java.util.*
  */
 class CameraActivity: Activity() {
 
-    val R_4_3 = 0
-    val R_16_9 = 1
-    var ratio = R_16_9
+    val R_1_1 = 0
+    val R_4_3 = 1
+    val R_16_9 = 2
+    var ratio = R_4_3
 
     var cameraId: String? = null
     var cameraDevice: CameraDevice? = null
@@ -141,10 +142,10 @@ class CameraActivity: Activity() {
     fun createCameraPreviewSession() {
         try {
             var surfaceTexture: SurfaceTexture = txtView!!.surfaceTexture
-            if (ratio == R_4_3) {
-                surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 4 / 3).toInt(), previewSize!!.height)
-            } else {
-                surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 16 / 9).toInt(), previewSize!!.height)
+            when (ratio) {
+                R_1_1 -> surfaceTexture.setDefaultBufferSize(previewSize!!.height, previewSize!!.height)
+                R_4_3 -> surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 4 / 3).toInt(), previewSize!!.height)
+                else -> surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 16 / 9).toInt(), previewSize!!.height)
             }
             var previewSurface = Surface(surfaceTexture)
             previewCaptureRequestBuilder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
@@ -181,10 +182,10 @@ class CameraActivity: Activity() {
             return
         var matrix = Matrix()
         val txtRectF = RectF(0f, 0f, width.toFloat(), height.toFloat())
-        var prvRectF: RectF = if (ratio == R_4_3) {
-            RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 4 / 3)
-        } else {
-            RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 16 / 9)
+        var prvRectF: RectF = when (ratio) {
+            R_1_1 -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat())
+            R_4_3 -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 4 / 3)
+            else -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 16 / 9)
         }
         val centerX = txtRectF.centerX()
         val centerY = txtRectF.centerY()
