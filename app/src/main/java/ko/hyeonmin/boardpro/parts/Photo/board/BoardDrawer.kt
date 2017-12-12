@@ -1,9 +1,7 @@
 package ko.hyeonmin.boardpro.parts.Photo.board
 
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
+import android.view.View
 import ko.hyeonmin.boardpro.models.Form
 
 /**
@@ -11,12 +9,15 @@ import ko.hyeonmin.boardpro.models.Form
  */
 class BoardDrawer {
 
-    fun draw(form: Form, bs: BoardSetting, canvas: Canvas, width: Float, height: Float, scale: Float): Triple<Float, Float, Boolean> {
+    fun draw(form: Form, bs: BoardSetting, cv: Canvas, fontSize: Float, width: Float, height: Float, scale: Float, getBitmap: Boolean): Bitmap? {
 
+        var canvas: Canvas? = null
+        var boardBitmap: Bitmap? = null
         val items = form.items
-        val fz = bs.fontSize * scale
-        val bdrW = fz / 20f
-        val halfBdrW = (bdrW / 2f).toInt()
+
+        var fz = if (fontSize == 0f) 24f else fontSize
+        var bdrW = fz / 20f
+        var halfBdrW = bdrW / 2f
 
         val textPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
         textPaint.textAlign = Paint.Align.LEFT
@@ -27,7 +28,7 @@ class BoardDrawer {
         var r = Rect()
         textPaint.getTextBounds("A가天", 0, 3, r)
         textPaint.getTextBounds("A가天", 0, 3, r)
-        val singleLH = r.height()
+        var singleLH = r.height().toFloat()
 
         val bgPaint = Paint()
         bgPaint.color = Color.parseColor("#${bs.bgColor}")
@@ -38,7 +39,6 @@ class BoardDrawer {
         borderPaint.color = Color.parseColor("#${bs.borderColor}")
 
         borderPaint.style = Paint.Style.STROKE
-        borderPaint.strokeWidth = bdrW
 
         var maxItemWidth = 0f
         var maxContentWidth = 0f
@@ -59,18 +59,41 @@ class BoardDrawer {
             lineHeights.add(contentH)
         }
 
-        val boardW = maxItemWidth + maxContentWidth + (fz * 2f) + bdrW
-        val boardH = lineHeights.map{it + fz}.sum() + bdrW
+        var boardW = maxItemWidth + maxContentWidth + (fz * 2f) + bdrW
+        var boardH = lineHeights.map{it + fz}.sum() + bdrW
 
-//        보드 높이나 너비가 주어진 공간보다 크면 세번째 값에 false를 반환
-        if (boardW > width * .9f || boardH > height * .95f)
-            return Triple(boardW, boardH, false)
 
-//        작다면 계속 그린다
-        val x = (width - boardW) / 2f
-        val y = (height - boardH) / 2f
+        //폰트값이 주어지지 않았다면 여기서 값들을 조정
+        if (fontSize == 0f) {
+            val scale = if (boardW / width * scale > boardH / height * scale) width * scale / boardW else height * scale / boardH
 
-        val rect = Rect(x.toInt() + 0, y.toInt() + 0, x.toInt() + boardW.toInt(), y.toInt() + boardH.toInt())
+            fz *= scale
+            bdrW *= scale
+            halfBdrW *= scale
+            singleLH *= scale
+            maxItemWidth *= scale
+            maxContentWidth *= scale
+            boardW *= scale
+            boardH *= scale
+            textPaint.textSize = fz
+            borderPaint.strokeWidth = bdrW
+            lineHeights = lineHeights.map { it * scale } as ArrayList<Float>
+        }
+
+        canvas = if (getBitmap) {
+            boardBitmap = Bitmap.createBitmap(boardW.toInt(), boardH.toInt(), Bitmap.Config.ARGB_8888)
+            Canvas(boardBitmap)
+        } else {
+            cv
+        }
+
+        val x = if (getBitmap) 0f else (width - boardW) / 2f
+        val y = if (getBitmap) 0f else (height - boardH) / 2f
+
+        val rect = RectF(x, y, x + boardW, y + boardH)
+
+
+
         canvas.drawRect(rect, bgPaint)
         canvas.drawRect(rect, borderPaint)
 
@@ -110,7 +133,6 @@ class BoardDrawer {
             acumH += (lineHeights[it] + fz)
         }
 
-//        그리기에 성공했으니 세번째 값으로 true 반환
-        return Triple(boardW, boardH, true)
+        return if (getBitmap) boardBitmap else null
     }
 }

@@ -59,7 +59,8 @@ open class FormSavingActivity: Activity() {
     open fun applyNewForm() {}
 
     open fun saveForms() {
-        caches?.formsJson = Gson().toJson(forms)
+        if (forms != null)
+            caches?.formsJson = Gson().toJson(forms)
     }
 
     override fun onPause() {

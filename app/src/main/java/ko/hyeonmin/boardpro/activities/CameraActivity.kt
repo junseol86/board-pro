@@ -15,12 +15,32 @@ import android.view.TextureView
 import android.view.View
 import android.view.Window
 import ko.hyeonmin.boardpro.R
+import ko.hyeonmin.boardpro.parts.Camera.CameraOptions
+import ko.hyeonmin.boardpro.parts.activityExtension.FormSavingActivity
+import ko.hyeonmin.boardpro.utils.Caches
+import ko.hyeonmin.boardpro.viewExtension.CameraCanvas
 import java.util.*
 
 /**
  * Created by junse on 2017-12-05.
  */
-class CameraActivity: Activity() {
+class CameraActivity: FormSavingActivity() {
+
+    var cameraOptions: CameraOptions? = null
+    var cameraCanvas: CameraCanvas? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        caches = Caches(this)
+        setContentView(R.layout.activity_camera)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+
+        cameraOptions = CameraOptions(this)
+        cameraCanvas = findViewById(R.id.cameraCanvas)
+
+        txtView = findViewById(R.id.textureView)
+    }
 
     val R_1_1 = 0
     val R_4_3 = 1
@@ -70,14 +90,6 @@ class CameraActivity: Activity() {
                     return false
                 }
             }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_camera)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-
-        txtView = findViewById(R.id.textureView)
-    }
 
     override fun onResume() {
         super.onResume()
