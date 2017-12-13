@@ -5,10 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import ko.hyeonmin.boardpro.R
-import ko.hyeonmin.boardpro.models.Form
-import ko.hyeonmin.boardpro.models.Item
-import ko.hyeonmin.boardpro.models.ItemContent
-import ko.hyeonmin.boardpro.parts.Photo.board.BoardSetting
+import ko.hyeonmin.boardpro.models.*
 
 /**
  * Created by junse on 2017-11-05.
@@ -34,6 +31,12 @@ class Caches(val activity: Activity) {
         get() = formsSF.getString("boardSettingJSON", "")
         set(value) {
             formsSF.edit().putString("boardSettingJSON", value).commit()
+        }
+
+    var boardSizePosJson: String
+        get() = formsSF.getString("boardSizePosJSON", "")
+        set(value) {
+            formsSF.edit().putString("boardSizePosJSON", value).commit()
         }
 
     init {
@@ -68,8 +71,13 @@ class Caches(val activity: Activity) {
 
 //        boardSettingJson = ""
         if (boardSettingJson == "") {
-            val bs = BoardSetting()
+            val bs = BoardSetting("000000", "FFFFFF", "6fa8dc", 80)
             boardSettingJson = Gson().toJson(bs)
+        }
+
+        if (boardSizePosJson == "") {
+            var bp = BoardSizePos(24f, 1f, 0f, 0f, 1f)
+            boardSizePosJson = Gson().toJson(bp)
         }
 
     }

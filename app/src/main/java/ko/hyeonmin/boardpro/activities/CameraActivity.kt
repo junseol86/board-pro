@@ -26,26 +26,23 @@ import java.util.*
  */
 class CameraActivity: FormSavingActivity() {
 
-    var cameraOptions: CameraOptions? = null
-    var cameraCanvas: CameraCanvas? = null
+    var co: CameraOptions? = null
+    var cc: CameraCanvas? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
         caches = Caches(this)
+        co = CameraOptions(this)
         setContentView(R.layout.activity_camera)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
-        cameraOptions = CameraOptions(this)
-        cameraCanvas = findViewById(R.id.cameraCanvas)
+        co?.setButtons()
+        cc = findViewById(R.id.cameraCanvas)
 
         txtView = findViewById(R.id.textureView)
     }
 
-    val R_1_1 = 0
-    val R_4_3 = 1
-    val R_16_9 = 2
-    var ratio = R_4_3
 
     var cameraId: String? = null
     var cameraDevice: CameraDevice? = null
@@ -154,9 +151,9 @@ class CameraActivity: FormSavingActivity() {
     fun createCameraPreviewSession() {
         try {
             var surfaceTexture: SurfaceTexture = txtView!!.surfaceTexture
-            when (ratio) {
-                R_1_1 -> surfaceTexture.setDefaultBufferSize(previewSize!!.height, previewSize!!.height)
-                R_4_3 -> surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 4 / 3).toInt(), previewSize!!.height)
+            when (co!!.ratio) {
+                co!!.R_1_1 -> surfaceTexture.setDefaultBufferSize(previewSize!!.height, previewSize!!.height)
+                co!!.R_4_3 -> surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 4 / 3).toInt(), previewSize!!.height)
                 else -> surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 16 / 9).toInt(), previewSize!!.height)
             }
             var previewSurface = Surface(surfaceTexture)
@@ -194,9 +191,9 @@ class CameraActivity: FormSavingActivity() {
             return
         var matrix = Matrix()
         val txtRectF = RectF(0f, 0f, width.toFloat(), height.toFloat())
-        var prvRectF: RectF = when (ratio) {
-            R_1_1 -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat())
-            R_4_3 -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 4 / 3)
+        var prvRectF: RectF = when (co!!.ratio) {
+            co!!.R_1_1 -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat())
+            co!!.R_4_3 -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 4 / 3)
             else -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 16 / 9)
         }
         val centerX = txtRectF.centerX()

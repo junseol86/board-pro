@@ -12,7 +12,7 @@ import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.activities.CameraActivity
 import ko.hyeonmin.boardpro.activities.ConsoleActivity
 import ko.hyeonmin.boardpro.models.ItemContent
-import ko.hyeonmin.boardpro.parts.Photo.board.BoardSetting
+import ko.hyeonmin.boardpro.models.BoardSetting
 import ko.hyeonmin.boardpro.parts.Photo.board.PreviewCanvas
 import ko.hyeonmin.boardpro.parts.Photo.colorPicker.ColorPicker
 import ko.hyeonmin.boardpro.viewExtension.BlackButton
@@ -39,7 +39,6 @@ class PhotoPanel(val activity: ConsoleActivity) {
     var alphaSeekbar: SeekBar = activity.findViewById(R.id.alphaSeekbar)
 
     init {
-
         colorPicker.applyToColorIndicators()
 
         alphaBtn.setOnTouchListener { view, event ->
@@ -78,6 +77,7 @@ class PhotoPanel(val activity: ConsoleActivity) {
             takePhotoBtn.onTouch(view, event)
             if (event.action == MotionEvent.ACTION_UP) {
                 saveItemContents()
+                saveBoardSetting()
 
                 var intent = Intent(activity, CameraActivity::class.java)
                 activity.startActivityForResult(intent, TAKE_PHOTO)

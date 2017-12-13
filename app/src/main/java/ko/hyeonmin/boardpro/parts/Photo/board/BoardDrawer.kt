@@ -1,7 +1,7 @@
 package ko.hyeonmin.boardpro.parts.Photo.board
 
 import android.graphics.*
-import android.view.View
+import ko.hyeonmin.boardpro.models.BoardSetting
 import ko.hyeonmin.boardpro.models.Form
 
 /**
@@ -80,6 +80,7 @@ class BoardDrawer {
             lineHeights = lineHeights.map { it * scale } as ArrayList<Float>
         }
 
+        // Bitmap을 구하기 위함인가, 화면에 그리기 위함인가에 따라 사용할 canvas가 달라짐
         canvas = if (getBitmap) {
             boardBitmap = Bitmap.createBitmap(boardW.toInt(), boardH.toInt(), Bitmap.Config.ARGB_8888)
             Canvas(boardBitmap)
@@ -90,9 +91,7 @@ class BoardDrawer {
         val x = if (getBitmap) 0f else (width - boardW) / 2f
         val y = if (getBitmap) 0f else (height - boardH) / 2f
 
-        val rect = RectF(x, y, x + boardW, y + boardH)
-
-
+        val rect = RectF(x + bdrW / 2f, y + bdrW / 2f, x + boardW - bdrW / 2f, y + boardH - bdrW)
 
         canvas.drawRect(rect, bgPaint)
         canvas.drawRect(rect, borderPaint)
