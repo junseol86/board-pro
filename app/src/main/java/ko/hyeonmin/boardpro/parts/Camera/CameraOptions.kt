@@ -27,5 +27,4 @@ class CameraOptions(val ca: CameraActivity) {
         cameraBoardSizeBtn = ca.findViewById(R.id.cmrBoardSize)
 
     }
-
 }

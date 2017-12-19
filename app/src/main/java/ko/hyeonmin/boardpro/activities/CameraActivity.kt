@@ -1,7 +1,6 @@
 package ko.hyeonmin.boardpro.activities
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.graphics.Matrix
 import android.graphics.RectF
@@ -9,11 +8,9 @@ import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.hardware.camera2.params.StreamConfigurationMap
 import android.os.Bundle
+import android.util.Log
 import android.util.Size
-import android.view.Surface
-import android.view.TextureView
-import android.view.View
-import android.view.Window
+import android.view.*
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.parts.Camera.CameraOptions
 import ko.hyeonmin.boardpro.parts.activityExtension.FormSavingActivity
@@ -34,8 +31,11 @@ class CameraActivity: FormSavingActivity() {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
         caches = Caches(this)
         co = CameraOptions(this)
+
+//        상태바가 화면을 아래로 밀지 못하게 함
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
         setContentView(R.layout.activity_camera)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
         co?.setButtons()
         cc = findViewById(R.id.cameraCanvas)
@@ -101,8 +101,7 @@ class CameraActivity: FormSavingActivity() {
         try {
             for (camera_id in cameraManager.cameraIdList) {
                 val cameraCharacterictics = cameraManager.getCameraCharacteristics(camera_id)
-                if (cameraCharacterictics.get(CameraCharacteristics.LENS_FACING) ==
-                        CameraCharacteristics.LENS_FACING_FRONT) {
+                if (cameraCharacterictics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT) {
                     continue
                 }
                 val map: StreamConfigurationMap = cameraCharacterictics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
@@ -135,7 +134,10 @@ class CameraActivity: FormSavingActivity() {
                 }
             }) as Size
         }
+
+//        화면보다 큰 카메라 사이즈 값이 없으면 아래가 반환됨.  이렇게 될 경우 카메라 화면 비율이 맞지 않는다.
         return mapSizes[0]
+//        return Size(width, height)
     }
 
     @SuppressLint("MissingPermission")
