@@ -8,7 +8,6 @@ import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.hardware.camera2.params.StreamConfigurationMap
 import android.os.Bundle
-import android.util.Log
 import android.util.Size
 import android.view.*
 import ko.hyeonmin.boardpro.R

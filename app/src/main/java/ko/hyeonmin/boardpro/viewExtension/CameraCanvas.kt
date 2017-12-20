@@ -41,18 +41,22 @@ class CameraCanvas(context: Context, attrs: AttributeSet): View(context, attrs),
     val boardPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
 
 //    화면이 표시될 영역
-    var scrW = 0
-    var scrH = 0
-    var scrLeftX = 0
-    var scrTopY = 0
+    var scrW = 0f
+    var scrH = 0f
+    var scrLeftX = 0f
+    var scrTopY = 0f
 
     var boundsAndBitmapSet = false
 
 //    보드가 표시될 좌표
-    var brdTop = 0
-    var brdBottom = 0
-    var brdLeft = 0
-    var brdRight = 0
+    var brdTop = 0f
+    var brdBottom = 0f
+    var brdLeft = 0f
+    var brdRight = 0f
+
+    var movingBoard = false
+    var movingFromX = 0f
+    var movingFromY = 0f
 
     init {
         this.setOnTouchListener(this)
@@ -70,29 +74,29 @@ class CameraCanvas(context: Context, attrs: AttributeSet): View(context, attrs),
     fun setBounds() {
         when (co.ratio) {
             co.R_1_1 -> {
-                scrW = height
-                scrH = height
+                scrW = height.toFloat()
+                scrH = height.toFloat()
                 scrLeftX = (width - scrW) / 2
             }
             co.R_4_3 -> {
                 if (width.toFloat() / height > 4f / 3) {
-                    scrW = (height * 4f / 3).toInt()
-                    scrH = height
+                    scrW = height * 4f / 3
+                    scrH = height.toFloat()
                     scrLeftX = (width - scrW) / 2
                 } else {
-                    scrW = width
-                    scrH = (width * 3f / 4).toInt()
+                    scrW = width.toFloat()
+                    scrH = width * 3f / 4
                     scrTopY = (height - scrH) / 2
                 }
             }
             co.R_16_9 -> {
                 if (width.toFloat() / height > 16f / 9) {
-                    scrW = (height * 16f / 9).toInt()
-                    scrH = height
+                    scrW = height * 16f / 9
+                    scrH = height.toFloat()
                     scrLeftX = (width - scrW) / 2
                 } else {
-                    scrW = width
-                    scrH = (width * 9f / 16).toInt()
+                    scrW = width.toFloat()
+                    scrH = width * 9f / 16
                     scrH = (height - scrH) / 2
                 }
             }
@@ -127,40 +131,75 @@ class CameraCanvas(context: Context, attrs: AttributeSet): View(context, attrs),
         canvas?.drawRoundRect(RectF(btnLeftX - brnArndR, btnTopY - brnArndR, btnLeftX + btnW + brnArndR, btnTopY + btnH + brnArndR),
                 btnW / 2f + brnArndR, btnW / 2f + brnArndR, btnArndBdrPaint)
 
-//        보드 기준을 위, 아래 중 가까운 쪽으로
-        if (bp.top < bp.bottom) {
-            brdTop = (scrTopY + bp.top).toInt()
-            brdBottom = brdTop + boardBitmap!!.height
-        } else {
-            brdBottom = (scrTopY + scrH - bp.bottom).toInt()
-            brdTop = brdBottom - boardBitmap!!.height
-        }
-//        보드 기준을 왼쪽, 오른쪽 중 가까운 쪽으로
-        if (bp.left < bp.right) {
-            brdLeft = (scrLeftX + bp.left).toInt()
-            brdRight = brdLeft + boardBitmap!!.width
-        } else {
-            brdRight = (scrLeftX + scrW - bp.right).toInt()
-            brdLeft = brdRight - boardBitmap!!.width
-        }
 
         if (boardBitmap != null) {
+
+            if (brdLeft == 0f && brdTop == 0f && brdRight == 0f && brdBottom == 0f) {
+//          보드 기준을 위, 아래 중 가까운 쪽으로
+                if (bp.top < bp.bottom) {
+                    brdTop = scrTopY + bp.top
+                    brdBottom = brdTop + boardBitmap!!.height
+                } else {
+                    brdBottom = scrTopY + scrH - bp.bottom
+                    brdTop = brdBottom - boardBitmap!!.height
+                }
+//          보드 기준을 왼쪽, 오른쪽 중 가까운 쪽으로
+                if (bp.left < bp.right) {
+                    brdLeft = scrLeftX + bp.left
+                    brdRight = brdLeft + boardBitmap!!.width
+                } else {
+                    brdRight = scrLeftX + scrW - bp.right
+                    brdLeft = brdRight - boardBitmap!!.width
+                }
+            }
+
             canvas?.drawBitmap(boardBitmap, null,
-                    Rect(brdLeft, brdTop, brdRight, brdBottom), boardPaint)
+                    RectF(brdLeft, brdTop, brdRight, brdBottom), boardPaint)
         }
 
     }
 
     override fun onTouch(view: View?, event: MotionEvent?): Boolean {
         if (event!!.x in btnLeftX..btnLeftX + btnW && event!!.y in btnTopY..btnTopY + btnH) {
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> btnArndPaint.alpha = 227
-                MotionEvent.ACTION_UP ->  {
-                }
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                btnArndPaint.alpha = 227
             }
         }
-        if (event.action == MotionEvent.ACTION_UP)
+        if (event!!.x in scrLeftX..scrLeftX + scrW && event!!.y in scrTopY..scrTopY + scrH) {
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                movingBoard = true
+                movingFromX = event.x
+                movingFromY = event.y
+            }
+        }
+//        보드를 움직일 시
+        if (movingBoard && event.action == MotionEvent.ACTION_MOVE) {
+//            보드가 좌우로 스크린을 벗어나지 않는다면
+            if (
+//                보드를 좌우로 움직인다
+                brdLeft + (event.x - movingFromX) >= scrLeftX &&
+                brdRight + (event.x - movingFromX) <= scrLeftX + scrW
+                    ) {
+                brdLeft += event.x - movingFromX
+                brdRight += event.x - movingFromX
+                invalidate()
+            }
+//            보드가 위아래로 스크린을 벗어나지 않는다면
+            if (
+//                보드를 위아래로 움직인다
+                brdTop + (event.y - movingFromY) >= scrTopY &&
+                brdBottom + (event.y - movingFromY) <= scrTopY + scrH
+                    ) {
+                brdTop += event.y - movingFromY
+                brdBottom += event.y - movingFromY
+            }
+            movingFromX = event.x
+            movingFromY = event.y
+        }
+        if (event.action == MotionEvent.ACTION_UP) {
             btnArndPaint.alpha = 200
+            movingBoard = false
+        }
         invalidate()
         return true
     }
