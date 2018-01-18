@@ -3,7 +3,6 @@ package ko.hyeonmin.boardpro.viewExtension
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.google.gson.Gson
@@ -14,6 +13,7 @@ import ko.hyeonmin.boardpro.parts.Camera.CameraOptions
 import ko.hyeonmin.boardpro.parts.Photo.board.BoardDrawer
 import ko.hyeonmin.boardpro.models.BoardSetting
 import ko.hyeonmin.boardpro.models.BoardSizePos
+import ko.hyeonmin.boardpro.parts.Camera.enums.CmrRatio
 
 /**
  * Created by junse on 2017-12-11.
@@ -48,6 +48,8 @@ class CameraCanvas(context: Context, attrs: AttributeSet): View(context, attrs),
 
     var boundsAndBitmapSet = false
 
+    var fontSize = 24f
+
 //    보드가 표시될 좌표
     var brdTop = 0f
     var brdBottom = 0f
@@ -73,12 +75,12 @@ class CameraCanvas(context: Context, attrs: AttributeSet): View(context, attrs),
 //    화면이 표시될 영역 정하기
     fun setBounds() {
         when (co.ratio) {
-            co.R_1_1 -> {
+            CmrRatio._1_1 -> {
                 scrW = height.toFloat()
                 scrH = height.toFloat()
                 scrLeftX = (width - scrW) / 2
             }
-            co.R_4_3 -> {
+            CmrRatio._4_3 -> {
                 if (width.toFloat() / height > 4f / 3) {
                     scrW = height * 4f / 3
                     scrH = height.toFloat()
@@ -89,7 +91,7 @@ class CameraCanvas(context: Context, attrs: AttributeSet): View(context, attrs),
                     scrTopY = (height - scrH) / 2
                 }
             }
-            co.R_16_9 -> {
+            CmrRatio._16_9 -> {
                 if (width.toFloat() / height > 16f / 9) {
                     scrW = height * 16f / 9
                     scrH = height.toFloat()
@@ -97,15 +99,14 @@ class CameraCanvas(context: Context, attrs: AttributeSet): View(context, attrs),
                 } else {
                     scrW = width.toFloat()
                     scrH = width * 9f / 16
-                    scrH = (height - scrH) / 2
+                    scrTopY = (height - scrH) / 2
                 }
             }
         }
-
     }
 
     fun setBitmap() {
-        boardBitmap = boardDrawer.draw(form, bs, Canvas(), 24f, 0f, 0f, 1f, true)
+        boardBitmap = boardDrawer.draw(form, bs, Canvas(), fontSize, 0f, 0f, 1f, true)
         invalidate()
     }
 
@@ -174,22 +175,24 @@ class CameraCanvas(context: Context, attrs: AttributeSet): View(context, attrs),
         }
 //        보드를 움직일 시
         if (movingBoard && event.action == MotionEvent.ACTION_MOVE) {
-//            보드가 좌우로 스크린을 벗어나지 않는다면
+//            보드가 좌우로 스크린을 벗어나지 않는다면, 혹은 이미 벗어나 있다면
             if (
-//                보드를 좌우로 움직인다
-                brdLeft + (event.x - movingFromX) >= scrLeftX &&
-                brdRight + (event.x - movingFromX) <= scrLeftX + scrW
+                brdLeft < scrLeftX || brdRight > scrLeftX + scrW ||
+                (brdLeft + (event.x - movingFromX) >= scrLeftX &&
+                brdRight + (event.x - movingFromX) <= scrLeftX + scrW)
                     ) {
+//                보드를 좌우로 움직인다
                 brdLeft += event.x - movingFromX
                 brdRight += event.x - movingFromX
                 invalidate()
             }
-//            보드가 위아래로 스크린을 벗어나지 않는다면
+//            보드가 위아래로 스크린을 벗어나지 않는다면, 혹은 이미 벗어나 있다면
             if (
-//                보드를 위아래로 움직인다
-                brdTop + (event.y - movingFromY) >= scrTopY &&
-                brdBottom + (event.y - movingFromY) <= scrTopY + scrH
+                brdTop < scrTopY || brdBottom > scrTopY + scrH ||
+                (brdTop + (event.y - movingFromY) >= scrTopY &&
+                    brdBottom + (event.y - movingFromY) <= scrTopY + scrH)
                     ) {
+//                보드를 위아래로 움직인다
                 brdTop += event.y - movingFromY
                 brdBottom += event.y - movingFromY
             }
@@ -202,5 +205,11 @@ class CameraCanvas(context: Context, attrs: AttributeSet): View(context, attrs),
         }
         invalidate()
         return true
+    }
+
+    fun saveSizeAndPos() {
+        ca.caches?.boardSizePosJson = Gson().toJson(BoardSizePos(
+                fontSize, brdTop - scrTopY, scrTopY + scrH - brdBottom, brdLeft - scrLeftX, scrLeftX + scrW - brdRight
+        ))
     }
 }

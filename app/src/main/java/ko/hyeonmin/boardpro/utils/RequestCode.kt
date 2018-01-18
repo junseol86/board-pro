@@ -6,4 +6,5 @@ package ko.hyeonmin.boardpro.utils
 object RequestCode {
     val EDIT_FORM = 0
     val SELECT_FORM = 1
+    val TAKE_PHOTO = 2
 }

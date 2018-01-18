@@ -12,6 +12,7 @@ import ko.hyeonmin.boardpro.parts.Photo.PhotoPanel
 import ko.hyeonmin.boardpro.parts.activityExtension.FormSavingActivity
 import ko.hyeonmin.boardpro.utils.Caches
 import ko.hyeonmin.boardpro.utils.RequestCode
+import ko.hyeonmin.boardpro.utils.ResultCode
 
 class ConsoleActivity : FormSavingActivity() {
 
@@ -31,6 +32,14 @@ class ConsoleActivity : FormSavingActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             RequestCode.EDIT_FORM -> formPanel?.editFormResult()
+            RequestCode.TAKE_PHOTO -> {
+                when (resultCode) {
+                    ResultCode.BACK_TO_CAMERA -> {
+                        var intent = Intent(this, CameraActivity::class.java)
+                        startActivityForResult(intent, RequestCode.TAKE_PHOTO)
+                    }
+                }
+            }
         }
     }
 

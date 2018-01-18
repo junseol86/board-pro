@@ -12,6 +12,7 @@ import android.util.Size
 import android.view.*
 import ko.hyeonmin.boardpro.R
 import ko.hyeonmin.boardpro.parts.Camera.CameraOptions
+import ko.hyeonmin.boardpro.parts.Camera.enums.CmrRatio
 import ko.hyeonmin.boardpro.parts.activityExtension.FormSavingActivity
 import ko.hyeonmin.boardpro.utils.Caches
 import ko.hyeonmin.boardpro.viewExtension.CameraCanvas
@@ -105,6 +106,7 @@ class CameraActivity: FormSavingActivity() {
                 }
                 val map: StreamConfigurationMap = cameraCharacterictics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
                 previewSize = getPreferredPreviewSize(map.getOutputSizes(SurfaceTexture::class.java), width, height)
+                previewSize = Size(width, height)
                 cameraId = camera_id
                 return
             }
@@ -114,29 +116,39 @@ class CameraActivity: FormSavingActivity() {
     }
 
     private fun getPreferredPreviewSize(mapSizes: Array<Size>, width: Int, height: Int): Size {
-        var collectorSizes: ArrayList<Size> = ArrayList()
+        // 화면보다는 큰 카메라 사이즈 중 가장 큰 것과 작은 것
+        var availMax: Size? = null
+        var availMin: Size? = null
+
         mapSizes.map {
+            if (availMax == null || it.width * it.height > availMax!!.width * availMax!!.height)
+                availMax = it
+
             if (width > height) {
-                if (it.width > width && it.height > height)
-                    collectorSizes.add(it)
+                if (it.width > width && it.height > height) {
+                    if (availMin == null || it.width * it.height < availMin!!.width * availMin!!.height)
+                        availMin = it
+                }
             } else {
-                if (it.width > height && it.height > width)
-                    collectorSizes.add(it)
+                if (it.width > height && it.height > width) {
+                    if (availMin == null || it.width * it.height < availMin!!.width * availMin!!.height)
+                        availMin = it
+                }
             }
         }
-        if (collectorSizes.size > 0) {
-            return Collections.min(collectorSizes, { lhs, rhs ->
-                when {
-                    lhs.width * lhs.height - rhs.width * rhs.height < 0 -> -1
-                    lhs.width * lhs.height - rhs.width * rhs.height == 0 -> 0
-                    else -> 1
-                }
-            }) as Size
-        }
 
-//        화면보다 큰 카메라 사이즈 값이 없으면 아래가 반환됨.  이렇게 될 경우 카메라 화면 비율이 맞지 않는다.
-        return mapSizes[0]
-//        return Size(width, height)
+        co?.setCameraSetting(availMax!!)
+
+        if ((availMin) != null)
+            return availMin!!
+
+//        화면보다 큰 카메라 사이즈 값이 없으면 아래가 반환됨.
+
+//        이렇게 될 경우 카메라 화면 비율이 맞지 않는다.
+//        return mapSizes[0]
+
+//        이렇게 하면 그나마 맞는 듯
+        return Size(width, height)
     }
 
     @SuppressLint("MissingPermission")
@@ -153,8 +165,8 @@ class CameraActivity: FormSavingActivity() {
         try {
             var surfaceTexture: SurfaceTexture = txtView!!.surfaceTexture
             when (co!!.ratio) {
-                co!!.R_1_1 -> surfaceTexture.setDefaultBufferSize(previewSize!!.height, previewSize!!.height)
-                co!!.R_4_3 -> surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 4 / 3).toInt(), previewSize!!.height)
+                CmrRatio._1_1 -> surfaceTexture.setDefaultBufferSize(previewSize!!.height, previewSize!!.height)
+                CmrRatio._4_3 -> surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 4 / 3).toInt(), previewSize!!.height)
                 else -> surfaceTexture.setDefaultBufferSize((previewSize!!.height.toFloat() * 16 / 9).toInt(), previewSize!!.height)
             }
             var previewSurface = Surface(surfaceTexture)
@@ -193,8 +205,8 @@ class CameraActivity: FormSavingActivity() {
         var matrix = Matrix()
         val txtRectF = RectF(0f, 0f, width.toFloat(), height.toFloat())
         var prvRectF: RectF = when (co!!.ratio) {
-            co!!.R_1_1 -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat())
-            co!!.R_4_3 -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 4 / 3)
+            CmrRatio._1_1 -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat())
+            CmrRatio._4_3 -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 4 / 3)
             else -> RectF(0f, 0f, previewSize!!.height.toFloat(), previewSize!!.height.toFloat() * 16 / 9)
         }
         val centerX = txtRectF.centerX()
@@ -207,4 +219,8 @@ class CameraActivity: FormSavingActivity() {
         txtView?.setTransform(matrix)
     }
 
+    override fun onPause() {
+        cc?.saveSizeAndPos()
+        super.onPause()
+    }
 }
