@@ -6,4 +6,4 @@ import ko.hyeonmin.boardpro.parts.Camera.enums.CmrRatio
 /**
  * Created by junse on 2018-01-16.
  */
-class CameraSetting (var cmrRatio: CmrRatio, var cameraMaxSize: Size, var imageSize: Int)
+class CameraSetting (var cmrRatio: CmrRatio, var imageSize: Int)

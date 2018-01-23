@@ -90,7 +90,7 @@ class Caches(val activity: Activity) {
 
 //        cameraSettingJson = ""
         if (cameraSettingJson == "") {
-            val cs = CameraSetting(CmrRatio._4_3, Size(0, 0), -1)
+            val cs = CameraSetting(CmrRatio._4_3, -1)
             cameraSettingJson = Gson().toJson(cs)
         }
     }

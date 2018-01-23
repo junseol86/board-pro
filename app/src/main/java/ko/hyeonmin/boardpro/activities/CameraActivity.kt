@@ -137,8 +137,11 @@ class CameraActivity: FormSavingActivity() {
             }
         }
 
+
+//        카메라 사이즈 최댓값을 토대로 사용 가능한 이미지 크기를 설정
         co?.setCameraSetting(availMax!!)
 
+//        카메라 사이즈 중 화면보다 큰 것이 있다면(일반적)
         if ((availMin) != null)
             return availMin!!
 
